@@ -36,7 +36,7 @@ package director
 		
 		private function init():void
 		{
-			_fps = 30; //默认fps为60
+			_fps = 60; //默认fps为60
 			_timer = new Timer(1000/_fps);
 			_timer.addEventListener(TimerEvent.TIMER, repaint);
 			this.curScene = PoolManager.instance.getScene(BeginScene);
@@ -59,11 +59,6 @@ package director
 			_curScene = value;
 			this.addChild(_curScene);
 			_timer.start();
-		}
-		
-		public function get fps():int
-		{
-			return _fps;
 		}
 		
 		public function set fps(fps:int):void

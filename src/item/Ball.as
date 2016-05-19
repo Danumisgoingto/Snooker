@@ -1,7 +1,9 @@
 package item
 {
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Shader;
 	import flash.display.Shape;
+	import flash.filters.BlurFilter;
 
 	public class Ball extends DynamicItemBase
 	{
@@ -29,6 +31,13 @@ package item
 			(_sprite as Shape).graphics.beginFill(0x000000);
 			(_sprite as Shape).graphics.drawCircle(_radius, _radius, _radius);
 			(_sprite as Shape).graphics.endFill();
+			
+
+			var boarder:Shape = new Shape();
+			boarder.graphics.lineStyle(1, 0x000000);
+			boarder.graphics.drawCircle(_radius, _radius, _radius);
+			this.addChild(boarder);
+		
 			super.setSprite();
 		}
 	}

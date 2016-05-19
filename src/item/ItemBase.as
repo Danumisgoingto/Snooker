@@ -27,6 +27,7 @@ package item
 		private function loadedCallback():void
 		{
 			this.setSprite();
+			_sprite.cacheAsBitmap = true;
 			(this.getChildAt(0) as Bitmap).mask = _sprite;
 		}
 		

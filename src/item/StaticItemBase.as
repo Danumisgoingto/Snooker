@@ -6,8 +6,7 @@ package item
 	{
 		public function StaticItemBase(url:String, parent:DisplayObjectContainer, x:int=0, y:int=0)
 		{
-			super(url, x, y);
-			parent.addChild(this);
+			super(url, parent, x, y);
 		}
 	}
 }

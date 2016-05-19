@@ -30,19 +30,19 @@ package scene
 		override protected function init():void
 		{
 			ball_white = new Ball(ImagesConst.BallWhite, this, 15, 0, 100);
-			ball_white.speed = {xSpeed:5, ySpeed:0};
-			this.addEventListener(MouseEvent.CLICK, clicktable);
+			ball_white.speed = {xSpeed:0, ySpeed:0};
+//			this.addEventListener(MouseEvent.CLICK, clicktable);
 //			backText = UIFactory.TextFeild("返回", 0, 300, this);
 //			backText.addEventListener(MouseEvent.CLICK, clickHandler);
 		}
 		
-		private function clicktable(evt:MouseEvent):void
-		{ 
-			if(ball_white.speed.xSpeed == 5)
-			   ball_white.speed.xSpeed = -5;
-			else
-				ball_white.speed.xSpeed = 5;
-		}
+//		private function clicktable(evt:MouseEvent):void
+//		{ 
+//			if(ball_white.speed.xSpeed == 5)
+//			   ball_white.speed.xSpeed = -5;
+//			else
+//				ball_white.speed.xSpeed = 5;
+//		}
 		
 		private function clickHandler(evt:MouseEvent):void
 		{

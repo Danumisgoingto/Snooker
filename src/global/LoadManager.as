@@ -1,6 +1,7 @@
 package global 
 {
 	import flash.display.Bitmap;
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Loader;
 	import flash.events.Event;
@@ -34,6 +35,10 @@ package global
 		private function loaded(evt:Event):void
 		{
 			_myBitmap = evt.target.content as Bitmap;
+			_myBitmap.cacheAsBitmap = true;
+//			this._parent.graphics.beginBitmapFill(_myBitmap.bitmapData);
+//			this._parent.graphics.drawRect(0, 0, _myBitmap.width, _myBitmap.height);
+//			this._parent.graphics.endFill();
 			this._parent.addChild(_myBitmap);
 			this._parent.setChildIndex(_myBitmap, this._z);
 			if(null != _loadedCallback)
@@ -42,11 +47,6 @@ package global
 			} 
 		}
 		
-		public function get myBitmap():Bitmap
-		{
-			return _myBitmap;
-		}
-	
 		
 	}
 }
