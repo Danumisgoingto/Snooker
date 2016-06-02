@@ -14,21 +14,23 @@ package item
 	public class ItemBase extends Sprite implements Iitem
 	{
 		protected var _sprite:DisplayObject;
+		protected var _outlook:Bitmap;
 		
 		public function ItemBase(url:String, parent:DisplayObjectContainer, x:int = 0, y:int = 0)
 		{
-			UIFactory.image(url, this, 0, loadedCallback);	
+		    UIFactory.image(url, this, 0, loadedCallback);	
 			this.x = x;
 			this.y = y;
 			parent.addChild(this);
 		}
 		
 		
-		private function loadedCallback():void
+		private function loadedCallback(bitmap:Bitmap):void
 		{
+			_outlook = bitmap;
 			this.setSprite();
 			_sprite.cacheAsBitmap = true;
-			(this.getChildAt(0) as Bitmap).mask = _sprite;
+			_outlook.mask = _sprite;
 		}
 		
 		public function setPosition(x:int, y:int):void
@@ -48,7 +50,7 @@ package item
 		 */		
          public function setSprite():void
 		 {
-			 this.addChild(_sprite);
+//			 this.addChild(_sprite);
 		 }
 		
 		 public function get sprite():DisplayObject
