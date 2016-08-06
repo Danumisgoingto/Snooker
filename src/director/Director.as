@@ -1,6 +1,8 @@
 package director
 {
 	
+	import controller.GameController;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
@@ -13,24 +15,26 @@ package director
 
 	public class Director extends Sprite
 	{
+		//常量
+		private static var _instance:Director = new Director();
 		
-		private static var _instance:Director;
+		//
 		private var _curScene:SceneBase = null;
 		private var _fps:int;
 		private var _timer:Timer;
 		
 		public function Director()
 		{
+			if(_instance)
+			{
+				throw Error("Director不是单例");
+			}
 			init();
 		}
 		
 
 		public static function get instance():Director
 		{
-			if(!_instance)
-			{
-				_instance = new Director();
-			}
 			return _instance;
 		}
 		
@@ -39,7 +43,8 @@ package director
 			_fps = 60; //默认fps为60
 			_timer = new Timer(1000/_fps);
 			_timer.addEventListener(TimerEvent.TIMER, repaint);
-			this.curScene = PoolManager.instance.getScene(BeginScene);
+			new GameController();
+			this.curScene = BeginScene.instance;
 //			this.addEventListener(Event.ENTER_FRAME, repaint);
 //			TweenMax.to(_curScene, 5, {"x":400});
 		}
@@ -54,7 +59,7 @@ package director
 			if(_curScene)
 			{
 				this.removeChild(_curScene);
-				_curScene.dispose();
+//				_curScene.dispose();
 			}
 			_curScene = value;
 			this.addChild(_curScene);

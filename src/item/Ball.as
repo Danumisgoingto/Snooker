@@ -7,15 +7,16 @@ package item
 	import flash.filters.BlurFilter;
 	
 	import global.ImagesConst;
+	import global.LoadManager;
 	import global.UIFactory;
 
 	public class Ball extends DynamicItemBase
 	{
 		private var _radius:int;
-		public function Ball(url:String, parent:DisplayObjectContainer, r:int = 10, x:int = 0, y:int = 0)
+		public function Ball(url:String, loader:LoadManager, r:int = 10)
 		{
 			this._radius = r;
-			super(url, parent, x, y );
+			super(url, loader);
 		}
 		
 		public function get radius():int
@@ -35,17 +36,19 @@ package item
 //			(_sprite as Shape).graphics.beginFill(0x000000);
 //			(_sprite as Shape).graphics.drawCircle(_radius, _radius, _radius);
 //			(_sprite as Shape).graphics.endFill();
-			UIFactory.image(ImagesConst._Sprite1, this, 0, loadedCallback);
+
+			this._loader.addToloadingQueues(ImagesConst._Sprite1,loadedCallback);
 			function loadedCallback(bitmap:Bitmap):void
 			{
 				_sprite = bitmap;
+				_sprite.cacheAsBitmap = true;
 			}
 			
 
-			var boarder:Shape = new Shape();
-			boarder.graphics.lineStyle(1, 0x000000);
-			boarder.graphics.drawCircle(_radius, _radius, _radius);
-			this.addChild(boarder);
+//			var boarder:Shape = new Shape();
+//			boarder.graphics.lineStyle(1, 0x000000);
+//			boarder.graphics.drawCircle(_radius, _radius, _radius);
+//			this.addChild(boarder);
 		
 			super.setSprite();
 		}

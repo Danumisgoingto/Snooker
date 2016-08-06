@@ -9,21 +9,31 @@ package scene
 	
 	import flashx.textLayout.formats.Direction;
 	
+	import global.GameElement;
 	import global.LoadManager;
 	import global.PoolManager;
 	import global.UIFactory;
 	
 	import item.DynamicItemBase;
 
-	public class SceneBase extends Sprite implements IScene
-	{
+	public class SceneBase extends GameElement implements IScene
+	{	
+		protected var _myLoader:LoadManager;
 		
 		public function SceneBase(url:String)
 		{
-			UIFactory.image(url, this);
+		    _myLoader = new LoadManager(this);
+			super(url, _myLoader);
 			init();
+			_myLoader.load();
 		}
 		
+		
+		public function get myLoader():LoadManager
+		{
+			return _myLoader;
+		}
+
 		protected function init():void
 		{
 		}
@@ -41,10 +51,6 @@ package scene
 			}
 		}
 		
-		public function dispose():void
-		{
-			PoolManager.instance.addScene(this);
-		}
 		
 	}
 }

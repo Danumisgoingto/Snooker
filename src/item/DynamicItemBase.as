@@ -4,13 +4,15 @@ package item
 	import flash.display.IGraphicsData;
 	import flash.display.Sprite;
 	
+	import global.LoadManager;
+	
 	public class DynamicItemBase extends ItemBase
 	{
 		protected var _speed:Object;
 		
-		public function DynamicItemBase(url:String, parent:DisplayObjectContainer, x:int=0, y:int=0)
+		public function DynamicItemBase(url:String, loader:LoadManager, x:int=0, y:int=0)
 		{
-			super(url, parent, x, y);
+			super(url, loader);
 			_speed = {xSpeed:0, ySpeed:0};
 		}
 		

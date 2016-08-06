@@ -4,6 +4,6 @@ package scene
 	{
 		function update():void;
 		
-		function dispose():void;
+//		function dispose():void;
 	}
 }

@@ -13,19 +13,9 @@ package global
 		}
 		
 		
-		public static function image(url:String, parent:DisplayObjectContainer, 
-									 z_index:int = 0, loadedCallback:Function = null):void
+		public static function addToLoadQueue():void
 		{
-			new LoadManager().loadImg(url, callBack);
-			function callBack(bitmap:Bitmap):void
-			{
-				if(null != loadedCallback)
-				{
-					loadedCallback(bitmap);
-				}
-				parent.addChild(bitmap);
-				parent.setChildIndex(bitmap, z_index);
-			}
+			
 		}
 		
 		

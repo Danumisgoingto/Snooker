@@ -4,13 +4,12 @@ package event
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	
-	public class LoadEventDispatcher implements IEventDispatcher
+	public class LoadEventDispatcher
 	{
-		private static var _dispatcher:EventDispatcher;
+		private static var _dispatcher:EventDispatcher = new EventDispatcher();
 		
 		public function LoadEventDispatcher()
 		{
-			_dispatcher = new EventDispatcher();
 		}
 		
 		public static function addEventListener(type:String, listener:Function, useCapture:Boolean=false, priority:int=0, useWeakReference:Boolean=false):void

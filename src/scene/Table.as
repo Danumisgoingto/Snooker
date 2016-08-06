@@ -19,21 +19,45 @@ package scene
 
 	public class Table extends SceneBase
 	{
+		//常量
+		private static var _instance:Table = new Table();
+		
+		//
 		private var ball_white:DynamicItemBase;
 		private var backText:TextField;
 		
 		public function Table()
 		{
 			super(ImagesConst.TableBg);
+			if(_instance)
+			{
+				throw Error("Table不是单例");
+			}
 		}
 		
+		public static function get instance():Table
+		{
+			return _instance;
+		}
+
 		override protected function init():void
 		{
-			ball_white = new Ball(ImagesConst.BallWhite, this, 15, 0, 100);
-			ball_white.speed = {xSpeed:0, ySpeed:0};
+//			ball_white = new Ball(ImagesConst.BallWhite, this._myLoader, 15);
 //			this.addEventListener(MouseEvent.CLICK, clicktable);
 //			backText = UIFactory.TextFeild("返回", 0, 300, this);
 //			backText.addEventListener(MouseEvent.CLICK, clickHandler);
+		}
+		
+		override public function allLoaded():void
+		{
+			super.allLoaded();
+//			ball_white.allLoaded();
+			
+//			ball_white.speed = {xSpeed:0, ySpeed:0};
+//			ball_white.setPosition(100, 100);
+//			this.addChild(ball_white);
+			
+			
 		}
 		
 //		private function clicktable(evt:MouseEvent):void
@@ -46,8 +70,7 @@ package scene
 		
 		private function clickHandler(evt:MouseEvent):void
 		{
-			Director.instance.curScene = 
-				PoolManager.instance.getScene(BeginScene);
+			Director.instance.curScene = BeginScene.instance;
 		}
 		
 	}

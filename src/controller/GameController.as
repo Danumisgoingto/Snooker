@@ -6,11 +6,16 @@ package controller
 	public class GameController
 	{
 		public function GameController()
+		{	
+			GameEventDispatcher.addEventListener(GameEvent.Game_Pause, gamePause);
+			
+			
+			initController();
+		}
+		
+		private function initController():void
 		{
-			var gameController:GameEventDispatcher = new GameEventDispatcher();
-			
-			gameController.addEventListener(GameEvent.Game_Pause, gamePause);
-			
+			new LoadController();
 		}
 		
 		private function gamePause():void
