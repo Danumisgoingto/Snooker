@@ -5,12 +5,20 @@ package global
 	
 	public class GameElement extends Sprite
 	{
+		protected var _loader:LoadManager;
+		
 		protected var _bg:Bitmap;
 		
-		public function GameElement(url:String, loader:LoadManager)
+		public function GameElement(url:String)
 		{
 			super();
-			loader.addToloadingQueues(url, loadedCallback);
+			_loader = new LoadManager(this);
+			_loader.addToloadingQueues(url, loadedCallback);
+		}
+		
+		public function get loader():LoadManager
+		{
+			return _loader;
 		}
 		
 		private function loadedCallback(bitmap:Bitmap):void
@@ -21,8 +29,7 @@ package global
 		
 		public function allLoaded():void
 		{
-			this.addChild(_bg);
-			this.setChildIndex(_bg, 0);
+			this.addChildAt(_bg, 0);
 		}
 		
 	}

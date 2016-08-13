@@ -15,9 +15,9 @@ package global
 		private var _loadList:Vector.<String> = new Vector.<String>();//加载队列
 		private var _callbackList:Vector.<Function> = new Vector.<Function>();//回调函数队列
 	    private var i:int = 0;//已经加载的数量
-		private var _scene:SceneBase;
+		private var _scene:GameElement;
 		
-		public function LoadManager(scene:SceneBase)
+		public function LoadManager(scene:GameElement)
 		{	
 			_scene = scene;
 		}

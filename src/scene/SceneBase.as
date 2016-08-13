@@ -18,22 +18,16 @@ package scene
 
 	public class SceneBase extends GameElement implements IScene
 	{	
-		protected var _myLoader:LoadManager;
-		
 		public function SceneBase(url:String)
 		{
-		    _myLoader = new LoadManager(this);
-			super(url, _myLoader);
+			super(url);
 			init();
-			_myLoader.load();
+			_loader.load();
 		}
 		
-		
-		public function get myLoader():LoadManager
-		{
-			return _myLoader;
-		}
-
+		/**
+		 *  提供复写
+		 **/
 		protected function init():void
 		{
 		}

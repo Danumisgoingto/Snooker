@@ -3,6 +3,8 @@ package director
 	
 	import controller.GameController;
 	
+	import debug.DebugTab;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
@@ -18,10 +20,10 @@ package director
 		//常量
 		private static var _instance:Director = new Director();
 		
-		//
+		//显示对象
+		private var _debugTab:DebugTab;
 		private var _curScene:SceneBase = null;
-		private var _fps:int;
-		private var _timer:Timer;
+		
 		
 		public function Director()
 		{
@@ -29,7 +31,14 @@ package director
 			{
 				throw Error("Director不是单例");
 			}
-			init();
+			if(null != stage)
+			{
+				init();
+			}
+			else
+			{
+				addEventListener(Event.ADDED_TO_STAGE, init);
+			}
 		}
 		
 
@@ -38,23 +47,27 @@ package director
 			return _instance;
 		}
 		
-		private function init():void
+		private function init(evt:Event = null):void
 		{
-			_fps = 60; //默认fps为60
-			_timer = new Timer(1000/_fps);
-			_timer.addEventListener(TimerEvent.TIMER, repaint);
+			if(hasEventListener(Event.ADDED_TO_STAGE))
+			{
+				removeEventListener(Event.ADDED_TO_STAGE, init);
+			}
+				
+			this.y = 24;
+			this.x = 141;
 			new GameController();
 			this.curScene = BeginScene.instance;
-//			this.addEventListener(Event.ENTER_FRAME, repaint);
-//			TweenMax.to(_curScene, 5, {"x":400});
+			_debugTab = new DebugTab(this, 10, 10);
+			this.addEventListener(Event.ENTER_FRAME, repaint);
 		}
 		
 		
 		public function set curScene(value:SceneBase):void
 		{
-			if(_timer.running)
+			if(hasEventListener(Event.ENTER_FRAME))
 			{
-				_timer.stop();
+				this.removeEventListener(Event.ENTER_FRAME, repaint);
 			}
 			if(_curScene)
 			{
@@ -62,38 +75,29 @@ package director
 //				_curScene.dispose();
 			}
 			_curScene = value;
-			this.addChild(_curScene);
-			_timer.start();
-		}
-		
-		public function set fps(fps:int):void
-		{
-			if(fps > 60)
-			{	
-				trace("fps等于60已经是极限");
-				this._fps = 60;
-			}
-			this._fps = fps;
-			_timer.delay = 1000/this._fps;
+			this.addChildAt(_curScene, 0);
+			this.addEventListener(Event.ENTER_FRAME, repaint);
 		}
 		
 		public function pause():void
 		{
-			_timer.stop();
+			if(hasEventListener(Event.ENTER_FRAME))
+			{
+				this.removeEventListener(Event.ENTER_FRAME, repaint);
+			}
 		}
 		
 		public function start():void
 		{
-			_timer.start();
-		}
-		
-		public function isRunning():Boolean
-		{
-			return _timer.running;
+			if(!hasEventListener(Event.ENTER_FRAME))
+			{
+				this.removeEventListener(Event.ENTER_FRAME, repaint);
+			}
 		}
 		
 		private function repaint(evt:Event):void
 		{
+			_debugTab.updateFps();
 			_curScene.update();
 		}
 	}

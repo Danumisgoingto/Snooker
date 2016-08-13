@@ -2,7 +2,7 @@ package event
 {
 	import flash.events.Event;
 	
-	import scene.SceneBase;
+	import global.GameElement;
 	
 	public class LoadEvent extends Event
 	{
@@ -10,15 +10,15 @@ package event
 		public static const AllLoad_Complete:String = "AllLoad_Complete";
 		
 		//
-		private var _scene:SceneBase;
+		private var _scene:GameElement;
 		
-		public function LoadEvent(type:String, scene:SceneBase=null, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function LoadEvent(type:String, scene:GameElement=null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			_scene = scene;
 			super(type, bubbles, cancelable);
 		}
 
-		public function get scene():SceneBase
+		public function get scene():GameElement
 		{
 			return _scene;
 		}
