@@ -1,19 +1,23 @@
 package director
 {
 	
-	import controller.GameController;
+	import cache.GameCache;
 	
-	import debug.DebugTab;
+	import controller.GameController;
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
+	import flash.text.TextField;
 	import flash.utils.Timer;
+	import flash.utils.getTimer;
 	
 	import global.PoolManager;
+	import global.UIFactory;
 	
 	import scene.BeginScene;
 	import scene.SceneBase;
+	import scene.Table;
 
 	public class Director extends Sprite
 	{
@@ -21,9 +25,14 @@ package director
 		private static var _instance:Director = new Director();
 		
 		//显示对象
-		private var _debugTab:DebugTab;
+		private var _debugTab:TextField;
 		private var _curScene:SceneBase = null;
 		
+		
+		//数据
+		private var _now:int;
+		private var _frameLast:int;//上一帧的时间
+		private var _frameCount:int;
 		
 		public function Director()
 		{
@@ -54,12 +63,16 @@ package director
 				removeEventListener(Event.ADDED_TO_STAGE, init);
 			}
 				
+			initGame();
+		}
+		
+		private function initGame():void
+		{
 			this.y = 24;
 			this.x = 141;
 			new GameController();
-			this.curScene = BeginScene.instance;
-			_debugTab = new DebugTab(this, 10, 10);
-			this.addEventListener(Event.ENTER_FRAME, repaint);
+			this.curScene = Table.instance;//BeginScene.instance;
+			_debugTab = UIFactory.TextFeild("", 10, 10, this);
 		}
 		
 		
@@ -75,8 +88,7 @@ package director
 //				_curScene.dispose();
 			}
 			_curScene = value;
-			this.addChildAt(_curScene, 0);
-			this.addEventListener(Event.ENTER_FRAME, repaint);
+			_curScene.load();
 		}
 		
 		public function pause():void
@@ -95,10 +107,27 @@ package director
 			}
 		}
 		
-		private function repaint(evt:Event):void
+		public function repaint(evt:Event):void
 		{
-			_debugTab.updateFps();
+			updateFps();
 			_curScene.update();
 		}
+		
+		private function updateFps():void
+		{
+			_now = getTimer();
+			var pass:int = _now - _frameLast;//已经过了多少时间
+			_frameCount++;
+			
+			if(pass > 1000)
+			{
+				GameCache.fps = _frameCount / pass * 1000;
+				var fps:int = GameCache.fps;
+				_frameLast = _now;
+				_frameCount = 0;
+				_debugTab.text = "FPS:" + GameCache.fps.toFixed(2);
+			}
+		}
+		
 	}
 }

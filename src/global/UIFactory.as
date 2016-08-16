@@ -2,9 +2,14 @@ package global
 {
 	import flash.display.Bitmap;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
+	
+	import item.Ball;
+	
+	import scene.SceneBase;
 
 	public class UIFactory
 	{
@@ -35,5 +40,15 @@ package global
 			parent.addChild(textField);
 			return textField;
 		}
+		
+		public static function createBall(url:String , r:int, aScene:SceneBase, x:int, y:int):Ball
+		{
+			var ball:Ball = new Ball(url, r);
+			ball.x = x;
+			ball.y = y;
+			aScene.addItem(ball);
+			return ball;
+		}
+		
 	}
 }

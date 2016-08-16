@@ -2,23 +2,24 @@ package event
 {
 	import flash.events.Event;
 	
-	import global.GameElement;
+	import scene.SceneBase;
+	
 	
 	public class LoadEvent extends Event
 	{
 		//常量
-		public static const AllLoad_Complete:String = "AllLoad_Complete";
+		public static const ALLLOAD_COMPLETE:String = "ALLLOAD_COMPLETE";
 		
 		//
-		private var _scene:GameElement;
+		private var _scene:SceneBase;
 		
-		public function LoadEvent(type:String, scene:GameElement=null, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function LoadEvent(type:String, scene:SceneBase=null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			_scene = scene;
 			super(type, bubbles, cancelable);
 		}
 
-		public function get scene():GameElement
+		public function get scene():SceneBase
 		{
 			return _scene;
 		}

@@ -5,30 +5,43 @@ package global
 	
 	public class GameElement extends Sprite
 	{
-		protected var _loader:LoadManager;
-		
 		protected var _bg:Bitmap;
+		
+		protected var _url:String;
+		
+		protected var _callback:Function;
 		
 		public function GameElement(url:String)
 		{
 			super();
-			_loader = new LoadManager(this);
-			_loader.addToloadingQueues(url, loadedCallback);
+			_url = url;
+			_callback = loadedCallback;
+			createElement();
 		}
 		
-		public function get loader():LoadManager
+		public function get url():String
 		{
-			return _loader;
+			return _url;
 		}
 		
-		private function loadedCallback(bitmap:Bitmap):void
+		public function get callback():Function
+		{
+			return _callback;
+		}
+		
+		/**
+		 * 提供复写
+		 **/
+		protected function createElement():void
+		{
+			
+		}
+		
+		
+		protected function loadedCallback(bitmap:Bitmap):void
 		{
 			_bg = bitmap;
 			_bg.cacheAsBitmap = true;
-		}
-		
-		public function allLoaded():void
-		{
 			this.addChildAt(_bg, 0);
 		}
 		

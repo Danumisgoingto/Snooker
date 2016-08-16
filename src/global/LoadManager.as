@@ -7,23 +7,32 @@ package global
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.net.URLRequest;
+	import flash.utils.Dictionary;
+	
+	import item.ItemBase;
 	
 	import scene.SceneBase;
 
 	public class LoadManager
 	{
-		private var _loadList:Vector.<String> = new Vector.<String>();//加载队列
+		private var _loadList:Array = [];//加载队列
 		private var _callbackList:Vector.<Function> = new Vector.<Function>();//回调函数队列
+		private var _callbackDic:Dictionary = new Dictionary();
 	    private var i:int = 0;//已经加载的数量
-		private var _scene:GameElement;
 		
-		public function LoadManager(scene:GameElement)
+		private var _scene:SceneBase;
+		
+		public function LoadManager(scene:SceneBase)
 		{	
 			_scene = scene;
 		}
 		
-		
-		public function addToloadingQueues(url:String, loadedCallback:Function = null):void
+		public function get loadList():Array
+		{
+			return _loadList;
+		}
+
+		public function addToLoadingQueues(url:*, loadedCallback:Function = null):void
 		{
 			_loadList.push(url);
 			_callbackList.push(loadedCallback);
@@ -31,36 +40,55 @@ package global
 		
 		public function load():void
 		{
-			for each(var url:String in _loadList)
+			for each(var url:* in _loadList)
 			{
 				loadImg(url);
 			}
 		}
 		
-		
-		private function loadImg(url:String):void
+		private function loadImg(url:*):void
 		{
 			var loader:Loader = new Loader();
-			var request:URLRequest = new URLRequest(url);
+			var request:URLRequest;
+			if(url is String)
+			{
+				request = new URLRequest(url);
+			}
+			else if(url is ItemBase)
+			{
+				request = new URLRequest(url.url);
+			}
+			
+			
+			_callbackDic[loader] = _callbackList[_loadList.indexOf(url)];
 			
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loaded);
 			loader.load(request);
 		}
 		
-		private function loaded(evt:Event):void
+		public function loaded(evt:Event):void
 		{
-		  if(null != _callbackList[i])
+		  if(null != _callbackDic[evt.target.loader])
 		  {
-			  _callbackList[i](evt.target.content as Bitmap);
+			  _callbackDic[evt.target.loader](evt.target.content as Bitmap);
 		  }
 		  i++;
 		  if(i == _loadList.length)
 		  {
-			  LoadEventDispatcher.dispatchEvent(new LoadEvent(LoadEvent.AllLoad_Complete, _scene));
+			  LoadEventDispatcher.dispatchEvent(new LoadEvent(LoadEvent.ALLLOAD_COMPLETE, _scene));
 		  }
 		}
 		
-		
+//		public function dispose():void
+//		{
+//			for(var i:int; i < _loadList.length; i++)
+//			{
+//				if(_loadList[i] is GameElement)
+//				{
+//					_loadList[i].dispose();
+//				}
+//			}
+//		}
 		
 	}
 }

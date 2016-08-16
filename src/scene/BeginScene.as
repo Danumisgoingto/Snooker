@@ -33,7 +33,8 @@ package scene
 			return _instance;
 		}
 		
-		override protected function init():void
+		/**load**/
+		override protected function createElement():void
 		{
 			_beginText = UIFactory.TextFeild("开始游戏", 300, 300, this);
 			_beginText.addEventListener(MouseEvent.CLICK, clickHandler);

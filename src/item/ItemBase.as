@@ -1,30 +1,29 @@
 package item
 {
+	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	
 	import global.GameElement;
-	import global.LoadManager;
-	import global.PoolManager;
 
 	public class ItemBase extends GameElement implements Iitem
 	{
 		protected var _sprite:DisplayObject;
-		protected var _loader:LoadManager;
 		
-		public function ItemBase(url:String, loader:LoadManager)
+		public function ItemBase(url:String)
 		{
-//		    UIFactory.image(url, this, 0, loadedCallback);	
-//			this.x = x;
-//			this.y = y;
-//			parent.addChild(this);
-			super(url, loader);
-			_loader = loader;
+			super(url);
+		}
+		
+		/**load**/
+		override protected function createElement():void
+		{
+			super.createElement();
 			this.setSprite();
 		}
 		
-		override public function allLoaded():void
+		override protected function loadedCallback(bitmap:Bitmap):void
 		{
-//			_sprite.cacheAsBitmap = true;
+			super.loadedCallback(bitmap);
 			_bg.mask = _sprite;
 		}
 		
@@ -44,17 +43,12 @@ package item
 		 */		
          public function setSprite():void
 		 {
-//			 this.addChild(_sprite);
+         	this.addChild(_sprite);
 		 }
 		
 		 public function get sprite():DisplayObject
 		 {
 			 return _sprite;
-		 }
-		 
-		 public function dispose():void
-		 {
-			 PoolManager.instance.addGameElement(this);
 		 }
 		 
 	}
