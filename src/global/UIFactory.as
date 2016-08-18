@@ -8,6 +8,7 @@ package global
 	import flash.text.TextFormat;
 	
 	import item.Ball;
+	import item.Stick;
 	
 	import scene.SceneBase;
 
@@ -48,6 +49,15 @@ package global
 			ball.y = y;
 			aScene.addItem(ball);
 			return ball;
+		}
+		
+		public static function createStick(url:String, aScene:SceneBase, x:int, y:int):Stick
+		{
+			var stick:Stick = new Stick(url);
+			stick.x = x;
+			stick.y = y;
+			aScene.addItem(stick);
+			return stick;
 		}
 		
 	}

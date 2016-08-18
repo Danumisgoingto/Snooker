@@ -8,7 +8,7 @@ package item
 		
 		function getPosition():Vector.<int, int>;
 		
-		function setSprite():void;
+//		function setSprite():void;
 		
 		function get sprite():DisplayObject;
 		

@@ -31,7 +31,7 @@ package item
 			this.setSprite();
 		}
 
-		override public function setSprite():void
+		override protected function setSprite():void
 		{
 			_sprite = new Shape();
 			(_sprite as Shape).graphics.beginFill(0x000000);
