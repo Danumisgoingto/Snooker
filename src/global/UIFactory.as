@@ -51,14 +51,14 @@ package global
 			return ball;
 		}
 		
-		public static function createStick(url:String, aScene:SceneBase, x:int, y:int):Stick
-		{
-			var stick:Stick = new Stick(url);
-			stick.x = x;
-			stick.y = y;
-			aScene.addItem(stick);
-			return stick;
-		}
+//		public static function createStick(url:String, aScene:SceneBase, x:int, y:int):Stick
+//		{
+//			var stick:Stick = new Stick(url);
+//			stick.x = x;
+//			stick.y = y;
+//			aScene.addItem(stick);
+//			return stick;
+//		}
 		
 	}
 }

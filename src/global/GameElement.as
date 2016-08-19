@@ -37,7 +37,7 @@ package global
 			return _callback;
 		}
 		
-		public function setWAndH(width:int, height:int):void
+		protected function setWAndH(width:int, height:int):void
 		{
 			if(!_scaleMod)
 			{
@@ -67,13 +67,14 @@ package global
 					throw Error("你尚未调用setWAndH方法设置宽高");
 				}
 				var bitmapDataTemp:BitmapData = new BitmapData(this._width, this._height);
-				var rectangle:Rectangle = new Rectangle(_bg.width, _bg.height);
+				var rectangle:Rectangle = new Rectangle(0, 0, _bg.width, _bg.height);
 				for(var w:int; w <= this._width; w += _bg.width)
 				{
-//					for(var h:int; h <= this._height; h += _bg.height)
-//					{
-						bitmapDataTemp.copyPixels(_bg.bitmapData, rectangle, new Point(w, 0));
-//					}
+					for(var h:int; h <= this._height; h += _bg.height)
+					{
+						bitmapDataTemp.copyPixels(_bg.bitmapData, rectangle, new Point(w, h));
+					}
+					h = 0;
 				}
 				_bg.bitmapData = bitmapDataTemp;
 			}

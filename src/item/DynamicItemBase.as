@@ -13,7 +13,7 @@ package item
 	{
 		protected var _speed:Object;
 		
-		public function DynamicItemBase(url:String, x:int=0, y:int=0)
+		public function DynamicItemBase(url:String = null)
 		{
 			super(url);
 			_speed = {xSpeed:0, ySpeed:0};

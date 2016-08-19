@@ -1,7 +1,8 @@
 package item
 {
-	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
+	
+	import global.ImagesConst;
 	
 	public class Stick extends ItemBase
 	{
@@ -18,28 +19,10 @@ package item
 			setWAndH(295, 15);
 		}
 		
-		
 		override protected function setSprite():void
 		{
-//			var command:Vector.<int> = [1, 2, 2, 2, 2];
-			var command:Vector.<int> = new Vector.<int>();
-			command[0] = 1;
-			command[1] = 2;
-			command[2] = 2;
-			command[3] = 2;
-			command[4] = 2;
-//			var point:Vector.<int> = [295, 5, 0, 0, 0, 15, 295, 10, 295, 5];
-			var point:Vector.<Number> = new Vector.<Number>();
-			point[0] = 295;
-			point[1] = 5;
-			point[2] = 0;
-			point[3] = 0;
-			point[4] = 0;
-			point[5] = 15;
-			point[6] = 295;
-			point[7] = 10;
-			point[8] = 295;
-			point[9] = 5;
+			var command:Vector.<int> = Vector.<int>([1, 2, 2, 2, 2]);
+			var point:Vector.<Number> = Vector.<Number>([295, 5, 0, 0, 0, 15, 295, 10, 295, 5]);
 			
 			_sprite = new Shape();
 			(_sprite as Shape).graphics.beginFill(0x000000);

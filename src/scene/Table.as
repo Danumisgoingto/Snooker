@@ -5,6 +5,7 @@ package scene
 	import flash.display.Scene;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.geom.Matrix;
 	import flash.text.TextField;
 	
 	import global.ImagesConst;
@@ -14,6 +15,7 @@ package scene
 	import item.Ball;
 	import item.DynamicItemBase;
 	import item.Iitem;
+	import item.Stick;
 	
 	import org.osmf.elements.BeaconElement;
 
@@ -28,7 +30,7 @@ package scene
 		
 		public function Table()
 		{
-			super(ImagesConst.TableBg);
+			super();//ImagesConst.TableBg
 			if(_instance)
 			{
 				throw Error("Table不是单例");
@@ -44,11 +46,9 @@ package scene
 		{
 			super.createElement();
 			
-			ball_white = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 20, 20);
+			ball_white = UIFactory.createBall("", 10, this, 20, 20);//ImagesConst.BallWhite
 //			ball_white.speed["xSpeed"] = 800;
 			
-			UIFactory.createStick(ImagesConst.WoodSkin, this, 100, 100);
-//			
 //			var ball_white1:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 30, 30);
 //			var ball_white2:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 40, 40);
 //			var ball_white3:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 50, 50);

@@ -9,7 +9,7 @@ package item
 	{
 		protected var _sprite:DisplayObject;
 		
-		public function ItemBase(url:String)
+		public function ItemBase(url:String = null)
 		{
 			super(url);
 		}
@@ -24,7 +24,7 @@ package item
 		override protected function loadedCallback(bitmap:Bitmap):void
 		{
 			super.loadedCallback(bitmap);
-//			_bg.mask = _sprite;
+			_bg.mask = _sprite;
 		}
 		
 		public function setPosition(x:int, y:int):void
@@ -43,7 +43,7 @@ package item
 		 */		
          protected function setSprite():void
 		 {
-//         	this.addChild(_sprite);
+         	this.addChild(_sprite);
 		 }
 		
 		 public function get sprite():DisplayObject

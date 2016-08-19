@@ -44,6 +44,11 @@ package global
 			{
 				loadImg(url);
 			}
+		    //如果加载列表为空，要发送加载完成的信息
+			if(0 == _loadList.length)
+			{
+				LoadEventDispatcher.dispatchEvent(new LoadEvent(LoadEvent.ALLLOAD_COMPLETE, _scene));
+			}
 		}
 		
 		private function loadImg(url:*):void

@@ -24,10 +24,13 @@ package scene
 		private var _sceneBuff:Bitmap;
 		private var _sceneBuffData:BitmapData;
 		
-		public function SceneBase(url:String)
+		public function SceneBase(url:String = null)
 		{
 			_loader = new LoadManager(this);
-			_loader.addToLoadingQueues(url, loadedCallback);
+			if(url && url != "")
+			{
+				_loader.addToLoadingQueues(url, loadedCallback);
+			}
 			super(url);
 		}
 		
@@ -47,7 +50,10 @@ package scene
 		
 		public function addItem(gameItem:ItemBase):void
 		{
-			_loader.addToLoadingQueues(gameItem, gameItem.callback);
+			if(gameItem.url && gameItem.url != "")
+			{
+				_loader.addToLoadingQueues(gameItem, gameItem.callback);
+			}
 		}
 		
 		/**
