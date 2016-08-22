@@ -1,23 +1,25 @@
 package item
 {
 	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
+	import flash.display.Shape;
 	
 	import global.GameElement;
+	import global.LoadManager;
 
 	public class ItemBase extends GameElement implements Iitem
 	{
-		protected var _sprite:DisplayObject;
+		protected var _sprite:Shape;
 		
-		public function ItemBase(url:String = null)
+		public function ItemBase(url:String = null, width:int = 0, height:int = 0)
 		{
-			super(url);
+			super(url, width, height);
 		}
 		
 		/**load**/
 		override protected function createElement():void
 		{
 			super.createElement();
+			_sprite = new Shape();
 			this.setSprite();
 		}
 		
@@ -40,13 +42,14 @@ package item
 		
 		/**
 		 *提供复写 
+		 * 设置用来碰撞检测的实体
 		 */		
          protected function setSprite():void
 		 {
          	this.addChild(_sprite);
 		 }
 		
-		 public function get sprite():DisplayObject
+		 public function get sprite():Shape
 		 {
 			 return _sprite;
 		 }

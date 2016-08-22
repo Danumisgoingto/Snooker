@@ -2,20 +2,19 @@ package item
 {
 	import cache.GameCache;
 	
-	import flash.display.DisplayObjectContainer;
-	import flash.display.IGraphicsData;
-	import flash.display.Sprite;
-	
-	import global.GameElement;
-	import global.LoadManager;
-	
 	public class DynamicItemBase extends ItemBase
 	{
 		protected var _speed:Object;
 		
-		public function DynamicItemBase(url:String = null)
+		public function DynamicItemBase(url:String = null, width:int = 0, height:int = 0)
 		{
-			super(url);
+			super(url, width, height);
+		}
+		
+		/** init*/
+		override protected function initData():void
+		{
+			super.initData();
 			_speed = {xSpeed:0, ySpeed:0};
 		}
 		

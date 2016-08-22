@@ -20,6 +20,8 @@ package global
 		private var _callbackDic:Dictionary = new Dictionary();
 	    private var i:int = 0;//已经加载的数量
 		
+		private var _spriteList:Array = [];//仅有sprite没有bg的ItemBase的列表
+		
 		private var _scene:SceneBase;
 		
 		public function LoadManager(scene:SceneBase)
@@ -27,22 +29,35 @@ package global
 			_scene = scene;
 		}
 		
+		public function get spriteList():Array
+		{
+			return _spriteList;
+		}
+
 		public function get loadList():Array
 		{
 			return _loadList;
 		}
 
-		public function addToLoadingQueues(url:*, loadedCallback:Function = null):void
+		public function addToLoadingQueues(param:*, loadedCallback:Function = null):void
 		{
-			_loadList.push(url);
+			_loadList.push(param);
 			_callbackList.push(loadedCallback);
+		}
+		
+		/**
+		 *  仅有sprite的itemBase就会放到这个列表显示出来
+		 **/
+		public function addToSpriteList(element:ItemBase):void
+		{
+			_spriteList.push(element);
 		}
 		
 		public function load():void
 		{
-			for each(var url:* in _loadList)
+			for each(var param:* in _loadList)
 			{
-				loadImg(url);
+				loadParam(param);
 			}
 		    //如果加载列表为空，要发送加载完成的信息
 			if(0 == _loadList.length)
@@ -51,21 +66,21 @@ package global
 			}
 		}
 		
-		private function loadImg(url:*):void
+		private function loadParam(param:*):void
 		{
 			var loader:Loader = new Loader();
 			var request:URLRequest;
-			if(url is String)
+			if(param is String)
 			{
-				request = new URLRequest(url);
+				request = new URLRequest(param);
 			}
-			else if(url is ItemBase)
+			else if(param is ItemBase)
 			{
-				request = new URLRequest(url.url);
+				request = new URLRequest(param.url);
 			}
 			
 			
-			_callbackDic[loader] = _callbackList[_loadList.indexOf(url)];
+			_callbackDic[loader] = _callbackList[_loadList.indexOf(param)];
 			
 			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loaded);
 			loader.load(request);

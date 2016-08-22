@@ -25,12 +25,12 @@ package scene
 		private static var _instance:Table = new Table();
 		
 		//
-		private var ball_white:DynamicItemBase;
+		private var _ballWhite:DynamicItemBase;
 		private var backText:TextField;
 		
 		public function Table()
 		{
-			super();//ImagesConst.TableBg
+			super(ImagesConst.TableBg);//
 			if(_instance)
 			{
 				throw Error("Table不是单例");
@@ -46,7 +46,7 @@ package scene
 		{
 			super.createElement();
 			
-			ball_white = UIFactory.createBall("", 10, this, 20, 20);//ImagesConst.BallWhite
+			_ballWhite = UIFactory.createBall("", 10, this, 20, 20);//ImagesConst.BallWhite
 //			ball_white.speed["xSpeed"] = 800;
 			
 //			var ball_white1:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 30, 30);
@@ -57,20 +57,27 @@ package scene
 //			var ball_white6:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 80, 80);
 //			var ball_white7:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 90, 90);
 			
+			addItem(Stick.instance);
 			
 			
 			
-			sprite.addEventListener(MouseEvent.CLICK, clicktable);
-//			backText = UIFactory.TextFeild("返回", 0, 300, this);
+			canvas.addEventListener(MouseEvent.CLICK, clicktable);
+			backText = UIFactory.TextFeild("", 0, 300, this);
 //			backText.addEventListener(MouseEvent.CLICK, clickHandler);
+		}
+		
+		override public function update():void
+		{
+			super.update();
+			
+			
+			
+			backText.text = "" +local  + ", " + mouseY ;
+			
 		}
 		
 		private function clicktable(evt:MouseEvent):void
 		{ 
-			if(ball_white.speed.xSpeed == 800)
-			   ball_white.speed.xSpeed = -800;
-			else
-				ball_white.speed.xSpeed = 800;
 		}
 		
 		private function clickHandler(evt:MouseEvent):void

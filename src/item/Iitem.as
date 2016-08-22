@@ -1,6 +1,6 @@
 package item
 {
-	import flash.display.DisplayObject;
+	import flash.display.Shape;
 
 	public interface Iitem
 	{
@@ -10,7 +10,7 @@ package item
 		
 //		function setSprite():void;
 		
-		function get sprite():DisplayObject;
+		function get sprite():Shape;
 		
 	}
 }

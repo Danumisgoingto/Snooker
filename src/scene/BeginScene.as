@@ -21,7 +21,7 @@ package scene
 		
 		public function BeginScene()
 		{
-			super(ImagesConst.BeginSceneBg);
+			super();
 			if(_instance)
 			{
 				throw Error("BeginScene不是单例");

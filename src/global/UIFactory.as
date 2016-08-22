@@ -1,14 +1,10 @@
 package global
 {
-	import flash.display.Bitmap;
-	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
-	import flash.events.Event;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
 	import item.Ball;
-	import item.Stick;
 	
 	import scene.SceneBase;
 
@@ -25,7 +21,7 @@ package global
 		}
 		
 		
-		public static function TextFeild(text:String, x:int, y:int, parent:DisplayObjectContainer,
+		public static function TextFeild(text:String, x:int, y:int, parent:Sprite,
 										 size:int = 25, selectable:Boolean = false):TextField
 		{
 			var textField:TextField = new TextField();
