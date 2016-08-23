@@ -1,12 +1,13 @@
 package item
 {
 	import flash.display.Shape;
+	import flash.geom.Point;
 
 	public interface Iitem
 	{
 		function setPosition( x:int, y:int ):void;
 		
-		function getPosition():Vector.<int, int>;
+		function getPosition():Point;
 		
 //		function setSprite():void;
 		

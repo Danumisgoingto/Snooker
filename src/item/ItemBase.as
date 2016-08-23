@@ -2,17 +2,31 @@ package item
 {
 	import flash.display.Bitmap;
 	import flash.display.Shape;
+	import flash.geom.Point;
 	
 	import global.GameElement;
-	import global.LoadManager;
 
 	public class ItemBase extends GameElement implements Iitem
 	{
 		protected var _sprite:Shape;
 		
+		protected var _itemList:Array;
+		
 		public function ItemBase(url:String = null, width:int = 0, height:int = 0)
 		{
 			super(url, width, height);
+		}
+		
+		public function get itemList():Array
+		{
+			return _itemList;
+		}
+
+		/** init*/
+		override protected function initData():void
+		{
+			super.initData();
+			_itemList = [];
 		}
 		
 		/**load**/
@@ -21,6 +35,12 @@ package item
 			super.createElement();
 			_sprite = new Shape();
 			this.setSprite();
+		}
+		
+		override public function addItem(gameItem:ItemBase, x:int = 0, y:int = 0):void
+		{
+			super.addItem(gameItem, x, y);
+			_itemList.push(gameItem);
 		}
 		
 		override protected function loadedCallback(bitmap:Bitmap):void
@@ -35,9 +55,9 @@ package item
 			this.y = y;
 		}
 		
-		public function getPosition():Vector.<int, int>
+		public function getPosition():Point
 		{
-			return new Vector.<int, int>(x, y);
+			return new Point(x, y);
 		}
 		
 		/**

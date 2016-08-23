@@ -6,6 +6,8 @@ package global
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
+	import item.ItemBase;
+	
 	public class GameElement extends Sprite
 	{
 		protected var _bg:Bitmap;
@@ -81,6 +83,16 @@ package global
 			
 		}
 		
+		/**
+		 *  提供复写
+		 *  用于添加物品到加载列表
+		 **/
+		public function addItem(gameItem:ItemBase, x:int = 0, y:int = 0):void
+		{
+			gameItem.x = x;
+			gameItem.y = y;
+			this.addChild(gameItem);
+		}
 		
 		protected function loadedCallback(bitmap:Bitmap):void
 		{

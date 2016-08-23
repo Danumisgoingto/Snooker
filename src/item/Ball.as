@@ -1,6 +1,7 @@
 package item
 {
 	import flash.display.Shape;
+	import flash.geom.Point;
 
 	public class Ball extends DynamicItemBase
 	{
@@ -21,6 +22,11 @@ package item
 		{
 			_radius = value;
 			this.setSprite();
+		}
+		
+		public function getCirclePoint():Point
+		{
+			return new Point(getPosition().x, getPosition().y);
 		}
 
 		override protected function setSprite():void

@@ -20,8 +20,6 @@ package global
 		private var _callbackDic:Dictionary = new Dictionary();
 	    private var i:int = 0;//已经加载的数量
 		
-		private var _spriteList:Array = [];//仅有sprite没有bg的ItemBase的列表
-		
 		private var _scene:SceneBase;
 		
 		public function LoadManager(scene:SceneBase)
@@ -29,11 +27,6 @@ package global
 			_scene = scene;
 		}
 		
-		public function get spriteList():Array
-		{
-			return _spriteList;
-		}
-
 		public function get loadList():Array
 		{
 			return _loadList;
@@ -43,14 +36,6 @@ package global
 		{
 			_loadList.push(param);
 			_callbackList.push(loadedCallback);
-		}
-		
-		/**
-		 *  仅有sprite的itemBase就会放到这个列表显示出来
-		 **/
-		public function addToSpriteList(element:ItemBase):void
-		{
-			_spriteList.push(element);
 		}
 		
 		public function load():void

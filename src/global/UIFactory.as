@@ -5,8 +5,6 @@ package global
 	import flash.text.TextFormat;
 	
 	import item.Ball;
-	
-	import scene.SceneBase;
 
 	public class UIFactory
 	{
@@ -38,12 +36,10 @@ package global
 			return textField;
 		}
 		
-		public static function createBall(url:String , r:int, aScene:SceneBase, x:int, y:int):Ball
+		public static function createBall(url:String , r:int, aElement:GameElement, x:int, y:int):Ball
 		{
 			var ball:Ball = new Ball(url, r);
-			ball.x = x;
-			ball.y = y;
-			aScene.addItem(ball);
+			aElement.addItem(ball, x, y);
 			return ball;
 		}
 		

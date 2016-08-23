@@ -15,17 +15,17 @@ package scene
 	import item.Ball;
 	import item.DynamicItemBase;
 	import item.Iitem;
+	import item.MajorRole;
 	import item.Stick;
 	
 	import org.osmf.elements.BeaconElement;
 
-	public class Table extends SceneBase
+	public class Table extends GameScene
 	{
 		//常量
 		private static var _instance:Table = new Table();
 		
 		//
-		private var _ballWhite:DynamicItemBase;
 		private var backText:TextField;
 		
 		public function Table()
@@ -46,44 +46,9 @@ package scene
 		{
 			super.createElement();
 			
-			_ballWhite = UIFactory.createBall("", 10, this, 20, 20);//ImagesConst.BallWhite
-//			ball_white.speed["xSpeed"] = 800;
-			
-//			var ball_white1:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 30, 30);
-//			var ball_white2:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 40, 40);
-//			var ball_white3:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 50, 50);
-//			var ball_white4:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 60, 60);
-//			var ball_white5:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 70, 70);
-//			var ball_white6:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 80, 80);
-//			var ball_white7:Ball = UIFactory.createBall(ImagesConst.BallWhite, 10, this, 90, 90);
-			
-			addItem(Stick.instance);
-			
-			
-			
-			canvas.addEventListener(MouseEvent.CLICK, clicktable);
-			backText = UIFactory.TextFeild("", 0, 300, this);
-//			backText.addEventListener(MouseEvent.CLICK, clickHandler);
 		}
 		
-		override public function update():void
-		{
-			super.update();
-			
-			
-			
-			backText.text = "" +local  + ", " + mouseY ;
-			
-		}
 		
-		private function clicktable(evt:MouseEvent):void
-		{ 
-		}
-		
-		private function clickHandler(evt:MouseEvent):void
-		{
-			Director.instance.curScene = BeginScene.instance;
-		}
 		
 	}
 }

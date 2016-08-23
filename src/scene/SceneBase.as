@@ -53,17 +53,38 @@ package scene
 			_loader.load();
 		}
 		
-		public function addItem(gameItem:ItemBase):void
+		override public function addItem(gameItem:ItemBase, x:int = 0, y:int = 0):void
 		{
-			if(gameItem.url && "" != gameItem.url)
+			super.addItem(gameItem, x, y);
+			addToLoadingQueues(gameItem);
+		}
+		
+	    private function addToLoadingQueues(gameItem:ItemBase):void
+		{
+			if(gameItem.itemList.length)
 			{
-				_loader.addToLoadingQueues(gameItem, gameItem.callback);
+				for each(var aItem:ItemBase in gameItem.itemList)
+				{
+					if(aItem.itemList.length)
+					{
+						addToLoadingQueues(aItem);
+					}
+					else
+					{
+						addSingleItem(aItem);
+					}
+				}
 			}
 			else
 			{
-				if(gameItem.sprite)//如果没有bg单有sprite就放到这个列表显示出来
+				addSingleItem(gameItem);
+			}
+			
+			function addSingleItem(aItem:ItemBase):void
+			{
+				if(aItem.url && "" != aItem.url)
 				{
-					_loader.addToSpriteList(gameItem);
+					_loader.addToLoadingQueues(aItem, aItem.callback);
 				}
 			}
 		}
@@ -78,22 +99,6 @@ package scene
 		
 	 	public function allLoaded():void
 		{
-			var loadArr:Array = _loader.loadList;
-			var spriteArr:Array = _loader.spriteList;
-			for(var i:int; i < loadArr.length; i++)
-			{
-				if(loadArr[i] is String)
-				{
-					continue;
-				}
-				this.addChild(loadArr[i]);
-			}
-			
-			for(i = 0; i < spriteArr.length; i++)
-			{
-				this.addChild(spriteArr[i]);
-			}
-			
 			_sceneBuffData = new BitmapData(getWidth(), getHeight());
 			_sceneBuffData.draw(this);
 			_sceneBuff.bitmapData = _sceneBuffData;
@@ -101,7 +106,7 @@ package scene
 			
 			Director.instance.addChildAt(_canvas, 0);
 			/*到完全加载完才添加心跳侦听*/
-			Director.instance.addEventListener(Event.ENTER_FRAME, Director.instance.repaint);
+			Director.instance.addEventListener(Event.ENTER_FRAME, Director.instance.updateFrame);
 		}
 		
 		public function update():void
@@ -109,18 +114,21 @@ package scene
 			//清除上一帧
 			_sceneBuffData = new BitmapData(getWidth(), getHeight());
 			
-			for(var i:uint = 0; i < _loader.loadList.length; i++ )
-			{	
-				if(_loader.loadList[i] is DynamicItemBase)
-				{
-					(_loader.loadList[i] as DynamicItemBase).move();
-				}
-			 
-			}
+			repaint();
 			
 			_sceneBuffData.draw(this);
 			//画完了再显示到屏幕上
 			_sceneBuff.bitmapData = _sceneBuffData;
+			
+		}
+		
+		
+		/**
+		 *  提供复写
+		 *  重画场景类
+		 **/
+		protected function repaint():void
+		{
 			
 		}
 		
