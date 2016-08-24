@@ -1,5 +1,7 @@
 package global
 {
+	import cache.GameCache;
+	
 	import flash.display.Sprite;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
@@ -36,7 +38,8 @@ package global
 			return textField;
 		}
 		
-		public static function createBall(url:String , r:int, aElement:GameElement, x:int, y:int):Ball
+		public static function createBall(url:String, aElement:GameElement, 
+										  x:int = 0, y:int = 0, r:int = GameCache.BALL_RADIUS):Ball
 		{
 			var ball:Ball = new Ball(url, r);
 			aElement.addItem(ball, x, y);

@@ -1,12 +1,14 @@
 package item
 {
+	import cache.GameCache;
+	
 	import flash.display.Shape;
 	import flash.geom.Point;
 
 	public class Ball extends DynamicItemBase
 	{
 		private var _radius:int;
-		public function Ball(url:String = null, r:int = 10)
+		public function Ball(url:String = null, r:int = GameCache.BALL_RADIUS)
 		{
 			//这里必须先初始化_radius,因为_sprite的创建在super里
 			_radius = r;
@@ -26,15 +28,15 @@ package item
 		
 		public function getCirclePoint():Point
 		{
-			return new Point(getPosition().x, getPosition().y);
+			return new Point(getPosition().x + _radius, getPosition().y + _radius);
 		}
 
 		override protected function setSprite():void
 		{
 			super.setSprite();
-			(_sprite as Shape).graphics.beginFill(0xFFFFFF);
-			(_sprite as Shape).graphics.drawCircle(_radius, _radius, _radius);
-			(_sprite as Shape).graphics.endFill();
+			_sprite.graphics.beginFill(0xFFFFFF);
+			_sprite.graphics.drawCircle(_radius, _radius, _radius);
+			_sprite.graphics.endFill();
 
 		}
 	}

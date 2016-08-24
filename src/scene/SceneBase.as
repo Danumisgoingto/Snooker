@@ -101,6 +101,7 @@ package scene
 		{
 			_sceneBuffData = new BitmapData(getWidth(), getHeight());
 			_sceneBuffData.draw(this);
+			_sceneBuff.smoothing = true;//抗锯齿
 			_sceneBuff.bitmapData = _sceneBuffData;
 			_canvas.addChild(_sceneBuff);
 			
@@ -118,6 +119,7 @@ package scene
 			
 			_sceneBuffData.draw(this);
 			//画完了再显示到屏幕上
+			_sceneBuff.smoothing = true;//抗锯齿
 			_sceneBuff.bitmapData = _sceneBuffData;
 			
 		}

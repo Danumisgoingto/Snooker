@@ -41,9 +41,9 @@ package item
 			var command:Vector.<int> = Vector.<int>([1, 2, 2, 2, 2]);
 			var point:Vector.<Number> = Vector.<Number>([295, 5, 0, 0, 0, 15, 295, 10, 295, 5]);
 			
-			(_sprite as Shape).graphics.beginFill(0x000000);
-			(_sprite as Shape).graphics.drawPath(command, point);
-			(_sprite as Shape).graphics.endFill();
+			_sprite.graphics.beginFill(0x000000);
+			_sprite.graphics.drawPath(command, point);
+			_sprite.graphics.endFill();
 			
 			
 		}

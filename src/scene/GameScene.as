@@ -11,6 +11,13 @@ package scene
 
 	public class GameScene extends SceneBase
 	{
+		
+		//数据
+		private var _isMouseDown:Boolean;
+		private var _pointWhileMouseDown:Point;
+		
+		
+		//调试
 		private var mousePos:TextField;
 		private var ballPos:TextField;
 		
@@ -28,16 +35,48 @@ package scene
 			addItem(MajorRole.instance, 100, 100);
 			
 			mousePos = UIFactory.TextFeild("", 0, 100, this, 10);
-			ballPos = UIFactory.TextFeild("", 0, 120, this, 10);
+			mousePos.width = 200;
+			ballPos = UIFactory.TextFeild("", 0, 180, this, 10);
+			ballPos.width = 200;
 			
+			canvas.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
+			canvas.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 			canvas.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 		}
 		
+		/**
+		 *  按下鼠标
+		 **/
+		private function mouseDownHandler(evt:MouseEvent):void
+		{
+			_isMouseDown = true;
+			_pointWhileMouseDown = new Point(evt.localX, evt.localY);
+			
+		}
+		
+		/**
+		 *  松下鼠标
+		 **/
+		private function mouseUpHandler(evt:MouseEvent):void
+		{
+			_isMouseDown = false;
+		}
+		
+		/**
+		 *  移动鼠标
+		 **/
 		private function mouseMoveHandler(evt:MouseEvent):void
 		{
-			MajorRole.instance.moveStick(new Point(evt.stageX, evt.stageY));
-			mousePos.text = "" + evt.stageX + ", " + evt.stageY;
-			ballPos.text = "" + MajorRole.instance.rotation;
+			mousePos.text = "(localX, localY): " + evt.localX + ", " + evt.localY;
+			if(!_isMouseDown)
+			{
+				MajorRole.instance.adjustAngle(new Point(evt.localX, evt.localY));
+				
+			}
+			else
+			{
+				ballPos.text = "(DownX, DownY): " + _pointWhileMouseDown.x + ", " + _pointWhileMouseDown.y;
+			}
 		}
 		
 		override protected function repaint():void

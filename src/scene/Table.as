@@ -23,7 +23,7 @@ package scene
 	public class Table extends GameScene
 	{
 		//常量
-		private static var _instance:Table = new Table();
+		private static var _instance:Table;
 		
 		//
 		private var backText:TextField;
@@ -39,16 +39,25 @@ package scene
 		
 		public static function get instance():Table
 		{
+			if(!_instance)
+			{
+				_instance = new Table();
+			}
 			return _instance;
 		}
 
 		override protected function createElement():void
 		{
 			super.createElement();
-			
+			backText = UIFactory.TextFeild("", 0, 140, this, 10);
+			backText.width = 200;
 		}
 		
-		
+		override protected function repaint():void
+		{
+			super.repaint();
+			backText.text = "(mouseX, mouseY): " + mouseX + ", " + mouseY;
+		}
 		
 	}
 }
