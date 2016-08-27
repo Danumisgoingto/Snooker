@@ -12,13 +12,14 @@ package global
 	{
 		protected var _bg:Bitmap;
 		
-		protected var _scaleMod:Boolean;//是否开启scale模式
+		//是否开启scale模式
+		protected var _scaleMod:Boolean;
 		
-		/**
+		/*
 		 *  为什么要再写自己的宽高，而不从sprite那里继承
 		 *  原因是因为sprite在没有内容时，
 		 * 无论怎么设置宽高，宽高都为0
-		 * */
+		*/
 		private var _width:int;
 		private var _height:int;
 		

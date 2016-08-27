@@ -7,9 +7,11 @@ package scene
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.geom.Matrix;
 	
 	import global.GameElement;
 	import global.LoadManager;
+	import global.UIFactory;
 	
 	import item.DynamicItemBase;
 	import item.ItemBase;
@@ -18,7 +20,7 @@ package scene
 	{	
 		protected var _loader:LoadManager;
 		
-		//双缓冲技术
+		//======双缓冲技术
 		private var _canvas:Sprite;
 		private var _sceneBuff:Bitmap;
 		private var _sceneBuffData:BitmapData;
@@ -37,13 +39,14 @@ package scene
 			{
 				_loader.addToLoadingQueues(url, loadedCallback);
 			}
+			
 		}
 		
 		/** load*/
 		override protected function createElement():void
 		{
 			super.createElement();
-			_sceneBuff = new Bitmap();
+			_sceneBuff = new Bitmap(null, "auto", true);
 			_canvas = new Sprite();
 		}
 		
@@ -101,7 +104,6 @@ package scene
 		{
 			_sceneBuffData = new BitmapData(getWidth(), getHeight());
 			_sceneBuffData.draw(this);
-			_sceneBuff.smoothing = true;//抗锯齿
 			_sceneBuff.bitmapData = _sceneBuffData;
 			_canvas.addChild(_sceneBuff);
 			
@@ -114,12 +116,11 @@ package scene
 		{
 			//清除上一帧
 			_sceneBuffData = new BitmapData(getWidth(), getHeight());
-			
+
 			repaint();
 			
 			_sceneBuffData.draw(this);
 			//画完了再显示到屏幕上
-			_sceneBuff.smoothing = true;//抗锯齿
 			_sceneBuff.bitmapData = _sceneBuffData;
 			
 		}

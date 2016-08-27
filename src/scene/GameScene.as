@@ -12,12 +12,12 @@ package scene
 	public class GameScene extends SceneBase
 	{
 		
-		//数据
+		//=====数据
 		private var _isMouseDown:Boolean;
-		private var _pointWhileMouseDown:Point;
+		private var _pointMouseDown:Point;
 		
 		
-		//调试
+		//=====调试
 		private var mousePos:TextField;
 		private var ballPos:TextField;
 		
@@ -49,8 +49,8 @@ package scene
 		 **/
 		private function mouseDownHandler(evt:MouseEvent):void
 		{
+			_pointMouseDown = new Point(evt.localX, evt.localY);
 			_isMouseDown = true;
-			_pointWhileMouseDown = new Point(evt.localX, evt.localY);
 			
 		}
 		
@@ -75,7 +75,10 @@ package scene
 			}
 			else
 			{
-				ballPos.text = "(DownX, DownY): " + _pointWhileMouseDown.x + ", " + _pointWhileMouseDown.y;
+				ballPos.text = "(DownX, DownY): " + _pointMouseDown.x + ", " + _pointMouseDown.y;
+				
+				MajorRole.instance.gatherStrength(new Point(evt.localX, evt.localY), _pointMouseDown);
+				
 			}
 		}
 		

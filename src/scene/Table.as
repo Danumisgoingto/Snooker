@@ -30,7 +30,7 @@ package scene
 		
 		public function Table()
 		{
-			super(ImagesConst.TableBg);//
+			super("",800,505);//
 			if(_instance)
 			{
 				throw Error("Table不是单例");

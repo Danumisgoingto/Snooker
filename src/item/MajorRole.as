@@ -2,7 +2,7 @@ package item
 {
 	import cache.GameCache;
 	
-	import flash.display.BitmapData;
+	import flash.display.Bitmap;
 	import flash.display.Shape;
 	import flash.geom.Point;
 	
@@ -10,25 +10,27 @@ package item
 	
 	public class MajorRole extends DynamicItemBase
 	{
-		//常量
+		//=====常量
 		private static const STICK_WIDTH:int = Stick.instance.getWidth();
 		private static const STICK_HEIGHT:int = Stick.instance.getHeight();
 		private static const BALL_WHITE_R:int = GameCache.BALL_RADIUS;
 		
 		private static var _instance:MajorRole;
 		
-		//显示对象
+		//=====显示对象
 		private var _ballWhite:Ball;
-		private var _stickSprite:ItemBase;//棍子的容器，用于旋转
+		//棍子的容器，用于旋转
+		private var _stickSprite:ItemBase;
 		
 		private var _guildLine:Shape;
-		private var _guildLineData:BitmapData;//抗锯齿
+//		private var _guildLine:Bitmap;
 		
-		//数据
+		//=====数据
 		private var _circlePosGlobal:Point;
 		private var _circlePosLocal:Point;
 		private var _angle:Number;
-		private var _k:Number;//斜率
+		//斜率
+		private var _k:Number;
 		private var _isRegister:Boolean;
 		
 		public function MajorRole()
@@ -66,9 +68,9 @@ package item
 			this.addItem(_stickSprite, 0, 0);
 			
 			_guildLine = new Shape();
-//			_guildLineBuff = new Bitmap();
-//			_guildLineBuff.smoothing = true;
 			this.addChild(_guildLine);
+//			_guildLine = new Bitmap(null, "auto", true);
+//			this.addChild(_guildLine);
 		}
 		
 		/**
@@ -91,9 +93,10 @@ package item
 			}
 			
 			_guildLine.graphics.clear();
-			_guildLine.graphics.lineStyle(1);
-			_guildLine.graphics.moveTo(_circlePosLocal.x, _circlePosLocal.y)
-			if(point.x == _circlePosGlobal.x) //斜率不存在
+			_guildLine.graphics.lineStyle(2,0,1,true);
+			_guildLine.graphics.moveTo(_circlePosLocal.x, _circlePosLocal.y);
+			//斜率不存在
+			if(point.x == _circlePosGlobal.x) 
 			{
 				if(point.y > _circlePosGlobal.y)
 				{
@@ -113,25 +116,27 @@ package item
 					_k = (point.y - _circlePosGlobal.y) / (point.x - _circlePosGlobal.x);
 					_angle = Math.atan(_k) / Math.PI * 180;
 					_guildLine.graphics.lineTo(450, _k*450 + _circlePosLocal.y - _k*_circlePosLocal.x);
+//					_guildLine.bitmapData = UIFactory.drawLine(_circlePosLocal.x, _circlePosLocal.y,
+//						450, _k*450 + _circlePosLocal.y - _k*_circlePosLocal.x, 2);
 				}
 				else
 				{
 					_k = (_circlePosGlobal.y - point.y) / (point.x - _circlePosGlobal.x);
 					_angle = 180 - Math.atan(_k) / Math.PI * 180;
 					_guildLine.graphics.lineTo(100, -_k*100 + _circlePosLocal.y + _k*_circlePosLocal.x);
+//					_guildLine.bitmapData = UIFactory.drawLine(_circlePosLocal.x, _circlePosLocal.y,
+//						100, -_k*100 + _circlePosLocal.y + _k*_circlePosLocal.x, 2);
 				}
 			}
 			
 			_stickSprite.rotation = _angle;
 			
-			_guildLineData = new BitmapData(_guildLine.width, _guildLine.height);
-			_guildLineData.drawWithQuality(_guildLine);
-			_guildLine.graphics.beginBitmapFill(_guildLineData);
-			
 		}
 		
-		public function gatherStrength():void
+		public function gatherStrength(mousePoint:Point, downPoint:Point):void
 		{
+			Stick.instance.x -= mousePoint.x - downPoint.x;
+			Stick.instance.y += (mousePoint.x - downPoint.x)/_k;
 			
 		}
 		
