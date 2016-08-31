@@ -109,7 +109,7 @@ package scene
 			
 			Director.instance.addChildAt(_canvas, 0);
 			/*到完全加载完才添加心跳侦听*/
-			Director.instance.addEventListener(Event.ENTER_FRAME, Director.instance.updateFrame);
+			Director.instance.start();
 		}
 		
 		public function update():void

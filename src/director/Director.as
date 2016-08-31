@@ -1,7 +1,7 @@
 package director
 {
 	
-	import cache.GameCache;
+	import data.GameCache;
 	
 	import controller.GameController;
 	
@@ -103,11 +103,11 @@ package director
 		{
 			if(!hasEventListener(Event.ENTER_FRAME))
 			{
-				this.removeEventListener(Event.ENTER_FRAME, updateFrame);
+				this.addEventListener(Event.ENTER_FRAME, updateFrame);
 			}
 		}
 		
-		public function updateFrame(evt:Event):void
+		private function updateFrame(evt:Event):void
 		{
 			updateFps();
 			_curScene.update();

@@ -1,6 +1,6 @@
 package item
 {
-	import cache.GameCache;
+	import data.GameCache;
 	
 	import flash.display.Bitmap;
 	import flash.display.Shape;
@@ -14,6 +14,8 @@ package item
 		private static const STICK_WIDTH:int = Stick.instance.getWidth();
 		private static const STICK_HEIGHT:int = Stick.instance.getHeight();
 		private static const BALL_WHITE_R:int = GameCache.BALL_RADIUS;
+		//木棍弹出的速度
+		private static const STICK_OUT_SPEED:int = 60;
 		
 		private static var _instance:MajorRole;
 		
@@ -28,10 +30,16 @@ package item
 		//=====数据
 		private var _circlePosGlobal:Point;
 		private var _circlePosLocal:Point;
+		private var _stickPosGlobal:Point;
+		private var _stickXGlobal:int;
+		private var _stickYGlobal:int;
+		private var _stickPosLocal:Point;
+		
 		private var _angle:Number;
 		//斜率
 		private var _k:Number;
-		private var _isRegister:Boolean;
+		//球的位置是否已经记录
+		private var _ballPosRecorded:Boolean;
 		
 		public function MajorRole()
 		{
@@ -78,7 +86,7 @@ package item
 		 **/
 		public function adjustAngle(point:Point):void
 		{
-			if(!_isRegister)
+			if(!_ballPosRecorded)
 			{
 				_stickSprite.x += (STICK_WIDTH + BALL_WHITE_R);
 				_stickSprite.y += BALL_WHITE_R;
@@ -87,9 +95,9 @@ package item
 				Stick.instance.y -= BALL_WHITE_R;
 				
 				_circlePosLocal = _ballWhite.getCirclePoint();
-				//转换到调用者父容器的坐标
+				/*转换到调用者父容器的坐标*/
 				_circlePosGlobal = this.localToGlobal(_circlePosLocal);
-				_isRegister = true;
+				_ballPosRecorded = true;
 			}
 			
 			_guildLine.graphics.clear();
@@ -131,15 +139,50 @@ package item
 			
 			_stickSprite.rotation = _angle;
 			
+			_stickPosGlobal = this.localToGlobal(_stickSprite.localToGlobal(
+				new Point(Stick.instance.x, Stick.instance.y)));
 		}
 		
+		/**
+		 *  聚力
+		 **/
 		public function gatherStrength(mousePoint:Point, downPoint:Point):void
 		{
-			Stick.instance.x -= mousePoint.x - downPoint.x;
-			Stick.instance.y += (mousePoint.x - downPoint.x)/_k;
-			
+			_stickXGlobal = _stickPosGlobal.x + mousePoint.x - downPoint.x;
+			if(downPoint.x < _circlePosGlobal.x)
+			{
+				_stickYGlobal = _k*_stickXGlobal + _stickPosGlobal.y - _k*_stickPosGlobal.x;
+			}
+			else
+			{
+				_stickYGlobal = -_k*_stickXGlobal + _stickPosGlobal.y + _k*_stickPosGlobal.x;
+			}
+			_stickPosLocal = _stickSprite.globalToLocal(this.globalToLocal(new Point(_stickXGlobal, _stickYGlobal)));
+			Stick.instance.x = _stickPosLocal.x;
+			Stick.instance.y = _stickPosLocal.y;
 		}
 		
+		/**
+		 *  弹出
+		 **/
+		public function stickOut():void
+		{
+			Stick.instance.setSpeed(STICK_OUT_SPEED, _k*STICK_OUT_SPEED);
+//			this.isAwake = true;
+		}
+		
+		
+		
+		/**
+		 *  重写move方法，实现独特的移动
+		 **/
+		override public function move():void
+		{
+			if(Stick.instance.speed.xSpeed || Stick.instance.speed.ySpeed)
+			{
+				Stick.instance.move();
+			}
+		}
 
 	}
 }

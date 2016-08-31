@@ -61,7 +61,7 @@ package item
 		}
 		
 		/**
-		 *提供复写 
+		 * 提供复写 
 		 * 设置用来碰撞检测的实体
 		 */		
          protected function setSprite():void

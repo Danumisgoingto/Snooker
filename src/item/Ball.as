@@ -1,6 +1,6 @@
 package item
 {
-	import cache.GameCache;
+	import data.GameCache;
 	
 	import flash.display.Shape;
 	import flash.geom.Point;

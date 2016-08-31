@@ -4,7 +4,7 @@ package item
 	
 	import global.ImagesConst;
 	
-	public class Stick extends ItemBase
+	public class Stick extends DynamicItemBase
 	{
 		//常量
 		private static var _instance:Stick;
@@ -26,15 +26,16 @@ package item
 			}
 			return _instance;
 		}
-
-		/** load*/
-		override protected function createElement():void
+		
+		/** init*/
+		override protected function initData():void
 		{
-			super.createElement();
+			super.initData();
 			_scaleMod = true;
 			setWAndH(295, 15);
+			_isHasFriction = false;
 		}
-		
+
 		override protected function setSprite():void
 		{
 			super.setSprite();

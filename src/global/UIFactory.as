@@ -1,9 +1,11 @@
 package global
 {
-	import cache.GameCache;
+	import data.GameCache;
 	
 	import flash.display.BitmapData;
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.geom.Point;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
@@ -84,29 +86,29 @@ package global
 			//斜率
 			var k:Number = dy / dx;
 			
-			var data:BitmapData = new BitmapData(Math.abs(dx)?Math.abs(dx):50,
+			var buff:BitmapData = new BitmapData(Math.abs(dx)?Math.abs(dx):50,
 				Math.abs(dy)?Math.abs(dy):50, true , 0x00000000);
 			
 			//n倍的
-			var dataN:BitmapData = new BitmapData(Math.abs(dx)?Math.abs(dx)*multiple:50*multiple, 
+			var buffN:BitmapData = new BitmapData(Math.abs(dx)?Math.abs(dx)*multiple:50*multiple, 
 				Math.abs(dy)?Math.abs(dy)*multiple:50*multiple, true, 0x00000000);
 			var blackPixelNum:uint;
 			
 			
 			for(var i:uint; i < Math.abs(dx); i++)
 			{
-				dataN.setPixel32(xStart + i, k*(xStart + i) + y0 - k*x0, 0xFF000000);
+				buffN.setPixel32(xStart + i, k*(xStart + i) + y0 - k*x0, 0xFF000000);
 			}
 			
-			for(var w:uint; w < data.width; w++)
+			for(var w:uint; w < buff.width; w++)
 			{
-				for(var h:uint; h < data.height; h++)
+				for(var h:uint; h < buff.height; h++)
 				{
 					for(var smallW:uint; smallW < multiple; smallW++)
 					{
 						for(var smallH:uint; smallH < multiple; smallH++)
 						{
-							if(0xFF000000 == dataN.getPixel32(w + smallW, h + smallH))
+							if(0xFF000000 == buffN.getPixel32(w + smallW, h + smallH))
 							{
 								blackPixelNum++;
 							}
@@ -114,15 +116,14 @@ package global
 						smallH = 0;
 					}
 					smallW = 0;
-					data.setPixel32(w, h, ARGBToColor( [0xFF * blackPixelNum/multiple*multiple, 0, 0, 0] ));
+					buff.setPixel32(w, h, ARGBToColor( [0xFF * blackPixelNum/multiple*multiple, 0, 0, 0] ));
 					blackPixelNum = 0;
 				}
 				h = 0;
 			}
 			
-			return data;
+			return buff;
 		}
-		
 		
 		
 		

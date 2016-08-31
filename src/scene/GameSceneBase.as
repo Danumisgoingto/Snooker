@@ -9,7 +9,7 @@ package scene
 	import item.DynamicItemBase;
 	import item.MajorRole;
 
-	public class GameScene extends SceneBase
+	public class GameSceneBase extends SceneBase
 	{
 		
 		//=====数据
@@ -21,7 +21,7 @@ package scene
 		private var mousePos:TextField;
 		private var ballPos:TextField;
 		
-		public function GameScene(url:String=null, width:int=0, height:int=0)
+		public function GameSceneBase(url:String=null, width:int=0, height:int=0)
 		{
 			super(url, width, height);
 		}
@@ -60,6 +60,7 @@ package scene
 		private function mouseUpHandler(evt:MouseEvent):void
 		{
 			_isMouseDown = false;
+			MajorRole.instance.stickOut();
 		}
 		
 		/**
@@ -76,7 +77,6 @@ package scene
 			else
 			{
 				ballPos.text = "(DownX, DownY): " + _pointMouseDown.x + ", " + _pointMouseDown.y;
-				
 				MajorRole.instance.gatherStrength(new Point(evt.localX, evt.localY), _pointMouseDown);
 				
 			}
@@ -87,7 +87,8 @@ package scene
 			
 			for(var i:uint = 0; i < this.numChildren; i++ )
 			{	
-				if(this.getChildAt(i) is DynamicItemBase)
+				if(this.getChildAt(i) is DynamicItemBase
+					&& (this.getChildAt(i) as DynamicItemBase).isAwake)
 				{
 					(this.getChildAt(i) as DynamicItemBase).move();
 				}

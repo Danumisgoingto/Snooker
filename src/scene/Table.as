@@ -20,7 +20,7 @@ package scene
 	
 	import org.osmf.elements.BeaconElement;
 
-	public class Table extends GameScene
+	public class Table extends GameSceneBase
 	{
 		//常量
 		private static var _instance:Table;
