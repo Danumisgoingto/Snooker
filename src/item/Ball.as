@@ -2,6 +2,7 @@ package item
 {
 	import data.GameCache;
 	
+	import flash.display.Bitmap;
 	import flash.display.Shape;
 	import flash.geom.Point;
 
@@ -24,6 +25,13 @@ package item
 		{
 			_radius = value;
 			this.setSprite();
+		}
+		
+		override protected function loadedCallback(bitmap:Bitmap):void
+		{
+			super.loadedCallback(bitmap);
+			this.x += 
+			
 		}
 		
 		public function getCirclePoint():Point
