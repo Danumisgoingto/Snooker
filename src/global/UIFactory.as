@@ -2,14 +2,19 @@ package global
 {
 	import data.GameCache;
 	
+	import director.Director;
+	
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.display.Stage;
 	import flash.geom.Point;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	
 	import item.Ball;
+	
+	import scene.SceneBase;
 
 	public class UIFactory
 	{
@@ -126,6 +131,52 @@ package global
 		}
 		
 		
+		/**
+		 *  将坐标转化为舞台的全局坐标
+		 **/
+		public static function getGlobalPos(aitem:DisplayObject, localPoint:Point):Point
+		{
+			while(!(aitem is Director))
+			{
+				if(aitem is SceneBase)
+				{
+					aitem = (aitem as SceneBase).canvas;
+				}
+				aitem = aitem.parent;
+				/*转换到调用者父容器的坐标*/
+				localPoint = aitem.localToGlobal(localPoint);
+			}
+			
+			return localPoint;
+		}
+		
+		/**
+		 *  将全局的舞台坐标转化为特定容器内的坐标
+		 **/
+		public static function getLocalPos(aitem:DisplayObject, globalPoint:Point):Point
+		{
+			//父容器栈
+			var parentList:Array = [];
+			
+			while(!(aitem is Director))
+			{
+				if(aitem is SceneBase)
+				{
+					aitem = (aitem as SceneBase).canvas;
+				}
+				aitem = aitem.parent;
+				//入栈
+				parentList.push(aitem);
+			}
+			
+			while(parentList.length)
+			{
+				//出栈
+				globalPoint = (parentList.pop() as DisplayObject).globalToLocal(globalPoint);
+			}
+			
+			return globalPoint;
+		}
 		
 	}
 }

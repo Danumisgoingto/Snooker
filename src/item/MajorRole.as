@@ -95,8 +95,9 @@ package item
 				Stick.instance.y -= BALL_WHITE_R;
 				
 				_circlePosLocal = _ballWhite.getCirclePoint();
-				/*转换到调用者父容器的坐标*/
-				_circlePosGlobal = this.localToGlobal(_circlePosLocal);
+				
+//				_circlePosGlobal = this.localToGlobal(_circlePosLocal);
+				_circlePosGlobal = UIFactory.getGlobalPos(_ballWhite, _circlePosLocal);
 				_ballPosRecorded = true;
 			}
 			
@@ -139,8 +140,10 @@ package item
 			
 			_stickSprite.rotation = _angle;
 			
-			_stickPosGlobal = this.localToGlobal(_stickSprite.localToGlobal(
-				new Point(Stick.instance.x, Stick.instance.y)));
+//			_stickPosGlobal = this.localToGlobal(_stickSprite.localToGlobal(
+//				new Point(Stick.instance.x, Stick.instance.y)));
+			_stickPosGlobal = UIFactory.getGlobalPos(Stick.instance, 
+				new Point(Stick.instance.x, Stick.instance.y));
 		}
 		
 		/**
@@ -157,7 +160,8 @@ package item
 			{
 				_stickYGlobal = -_k*_stickXGlobal + _stickPosGlobal.y + _k*_stickPosGlobal.x;
 			}
-			_stickPosLocal = _stickSprite.globalToLocal(this.globalToLocal(new Point(_stickXGlobal, _stickYGlobal)));
+//			_stickPosLocal = _stickSprite.globalToLocal(this.globalToLocal(new Point(_stickXGlobal, _stickYGlobal)));
+			_stickPosLocal = UIFactory.getLocalPos(Stick.instance, new Point(_stickXGlobal, _stickYGlobal));
 			Stick.instance.x = _stickPosLocal.x;
 			Stick.instance.y = _stickPosLocal.y;
 		}
@@ -167,7 +171,7 @@ package item
 		 **/
 		public function stickOut():void
 		{
-			Stick.instance.setSpeed(STICK_OUT_SPEED, _k*STICK_OUT_SPEED);
+//			Stick.instance.setSpeed(STICK_OUT_SPEED, _k*STICK_OUT_SPEED);
 //			this.isAwake = true;
 		}
 		

@@ -30,7 +30,7 @@ package item
 		override protected function loadedCallback(bitmap:Bitmap):void
 		{
 			super.loadedCallback(bitmap);
-			this.x += 
+//			this.x += 
 			
 		}
 		

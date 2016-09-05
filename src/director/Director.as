@@ -62,7 +62,7 @@ package director
 			{
 				removeEventListener(Event.ADDED_TO_STAGE, init);
 			}
-				
+			
 			initGame();
 		}
 		

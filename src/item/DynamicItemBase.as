@@ -75,16 +75,7 @@ package item
 			
 		}
 		
-		/**
-		 *  碰撞检测
-		 **/
-		public function crashCheck(aItem:ItemBase):void
-		{
-			if(aItem is DynamicItemBase)
-			{
-//				aItem.sprite.hi
-			}
-		}
+		
 		
 	}
 }

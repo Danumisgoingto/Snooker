@@ -1,5 +1,7 @@
 package data
 {
+	import flash.display.Stage;
+
 	public class GameCache
 	{
 		public static var fps:int;

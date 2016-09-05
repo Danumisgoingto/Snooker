@@ -74,5 +74,17 @@ package item
 			 return _sprite;
 		 }
 		 
+		 
+		 /**
+		  *  碰撞检测
+		  **/
+		 public function crashCheck(aItem:ItemBase):void
+		 {
+			 
+			 
+			 
+			 
+		 }
+		 
 	}
 }
