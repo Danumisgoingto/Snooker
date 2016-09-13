@@ -68,8 +68,8 @@ package director
 		
 		private function initGame():void
 		{
-			this.y = 24;
-			this.x = 141;
+			this.y = GameCache.GAME_WIN_Y;
+			this.x = GameCache.GAME_WIN_X;
 			new GameController();
 			this.curScene = Table.instance;//BeginScene.instance;
 			_debugTab = UIFactory.TextFeild("", 10, 10, this);

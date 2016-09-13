@@ -6,14 +6,11 @@ package scene
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.geom.Matrix;
+	import flash.geom.Rectangle;
 	
 	import global.GameElement;
 	import global.LoadManager;
-	import global.UIFactory;
 	
-	import item.DynamicItemBase;
 	import item.ItemBase;
 
 	public class SceneBase extends GameElement implements IScene
@@ -21,9 +18,9 @@ package scene
 		protected var _loader:LoadManager;
 		
 		//======双缓冲技术
-		private var _canvas:Sprite;
-		private var _sceneBuff:Bitmap;
-		private var _sceneBuffData:BitmapData;
+		private var _canvas:Sprite;//画板
+		private var _canvasRect:Rectangle;
+        private var _canvasBuff:BitmapData;//缓冲画板
 		
 		public function SceneBase(url:String = null, width:int = 0, height:int = 0)
 		{
@@ -46,7 +43,6 @@ package scene
 		override protected function createElement():void
 		{
 			super.createElement();
-			_sceneBuff = new Bitmap(null, "auto", true);
 			_canvas = new Sprite();
 		}
 		
@@ -93,7 +89,7 @@ package scene
 		}
 		
 		/**
-		 *  获取画布的容器，用于侦听
+		 *  获取画板，用于侦听
 		 **/
 		public function get canvas():Sprite
 		{
@@ -102,10 +98,13 @@ package scene
 		
 	 	public function allLoaded():void
 		{
-			_sceneBuffData = new BitmapData(getWidth(), getHeight());
-			_sceneBuffData.draw(this);
-			_sceneBuff.bitmapData = _sceneBuffData;
-			_canvas.addChild(_sceneBuff);
+			_canvasRect = new Rectangle(0, 0, getWidth(), getHeight());
+			_canvasBuff = new BitmapData(getWidth(), getHeight());
+			_canvasBuff.draw(this, null, null, null, null, true);
+			
+			_canvas.graphics.beginBitmapFill(_canvasBuff, null, true, true);
+			_canvas.graphics.drawRect(0, 0, getWidth(), getHeight());
+			_canvas.graphics.endFill();
 			
 			Director.instance.addChildAt(_canvas, 0);
 			/*到完全加载完才添加心跳侦听*/
@@ -115,13 +114,16 @@ package scene
 		public function update():void
 		{
 			//清除上一帧
-			_sceneBuffData = new BitmapData(getWidth(), getHeight());
+			_canvasBuff.fillRect(_canvasRect, 0x00000000);//擦除缓冲画板
+			_canvas.graphics.clear();//擦除画板
 
 			repaint();
 			
-			_sceneBuffData.draw(this);
+			_canvasBuff.draw(this, null, null, null, null, true);
 			//画完了再显示到屏幕上
-			_sceneBuff.bitmapData = _sceneBuffData;
+			_canvas.graphics.beginBitmapFill(_canvasBuff, null, true, true);
+			_canvas.graphics.drawRect(0, 0, getWidth(), getHeight());
+			_canvas.graphics.endFill();
 			
 		}
 		

@@ -30,7 +30,7 @@ package scene
 		
 		public function Table()
 		{
-			super("",800,505);//
+			super(ImagesConst.TableBg,800,505);//
 			if(_instance)
 			{
 				throw Error("Table不是单例");
@@ -51,6 +51,9 @@ package scene
 			super.createElement();
 			backText = UIFactory.TextFeild("", 0, 140, this, 10);
 			backText.width = 200;
+//			var b:Ball = UIFactory.createBall("", this, 20, 20);
+//			b.isAwake = true;
+//			b.setSpeed(1400, 0);
 		}
 		
 		override protected function repaint():void

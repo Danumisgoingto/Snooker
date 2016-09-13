@@ -4,6 +4,10 @@ package data
 
 	public class GameCache
 	{
+		public static const GAME_WIN_X:int = 141;
+		
+		public static const GAME_WIN_Y:int = 24;
+		
 		public static var fps:int;
 		
 		/** 是否在调试模式 **/

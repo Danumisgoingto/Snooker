@@ -24,9 +24,6 @@ package item
 		//棍子的容器，用于旋转
 		private var _stickSprite:ItemBase;
 		
-		private var _guildLine:Shape;
-//		private var _guildLine:Bitmap;
-		
 		//=====数据
 		private var _circlePosGlobal:Point;
 		private var _circlePosLocal:Point;
@@ -75,10 +72,6 @@ package item
 			_stickSprite.addItem(Stick.instance);
 			this.addItem(_stickSprite, 0, 0);
 			
-			_guildLine = new Shape();
-			this.addChild(_guildLine);
-//			_guildLine = new Bitmap(null, "auto", true);
-//			this.addChild(_guildLine);
 		}
 		
 		/**
@@ -96,26 +89,25 @@ package item
 				
 				_circlePosLocal = _ballWhite.getCirclePoint();
 				
-//				_circlePosGlobal = this.localToGlobal(_circlePosLocal);
-				_circlePosGlobal = UIFactory.getGlobalPos(_ballWhite, _circlePosLocal);
+				_circlePosGlobal = UIFactory.getGlobalPos(this, _circlePosLocal);
 				_ballPosRecorded = true;
 			}
 			
-			_guildLine.graphics.clear();
-			_guildLine.graphics.lineStyle(2,0,1,true);
-			_guildLine.graphics.moveTo(_circlePosLocal.x, _circlePosLocal.y);
+			this.graphics.clear();
+			this.graphics.lineStyle(2,0,1,true);
+			this.graphics.moveTo(_circlePosLocal.x, _circlePosLocal.y);
 			//斜率不存在
 			if(point.x == _circlePosGlobal.x) 
 			{
 				if(point.y > _circlePosGlobal.y)
 				{
 					_angle = -90;
-					_guildLine.graphics.lineTo(_circlePosLocal.x, _circlePosLocal.y - 50);
+					this.graphics.lineTo(_circlePosLocal.x, _circlePosLocal.y - 50);
 				}
 				else
 				{
 					_angle = 90;
-					_guildLine.graphics.lineTo(_circlePosLocal.x, _circlePosLocal.y + 50);
+					this.graphics.lineTo(_circlePosLocal.x, _circlePosLocal.y + 50);
 				}
 			}
 			else
@@ -124,25 +116,19 @@ package item
 				{
 					_k = (point.y - _circlePosGlobal.y) / (point.x - _circlePosGlobal.x);
 					_angle = Math.atan(_k) / Math.PI * 180;
-					_guildLine.graphics.lineTo(450, _k*450 + _circlePosLocal.y - _k*_circlePosLocal.x);
-//					_guildLine.bitmapData = UIFactory.drawLine(_circlePosLocal.x, _circlePosLocal.y,
-//						450, _k*450 + _circlePosLocal.y - _k*_circlePosLocal.x, 2);
+					this.graphics.lineTo(450, _k*450 + _circlePosLocal.y - _k*_circlePosLocal.x);
 				}
 				else
 				{
 					_k = (_circlePosGlobal.y - point.y) / (point.x - _circlePosGlobal.x);
 					_angle = 180 - Math.atan(_k) / Math.PI * 180;
-					_guildLine.graphics.lineTo(100, -_k*100 + _circlePosLocal.y + _k*_circlePosLocal.x);
-//					_guildLine.bitmapData = UIFactory.drawLine(_circlePosLocal.x, _circlePosLocal.y,
-//						100, -_k*100 + _circlePosLocal.y + _k*_circlePosLocal.x, 2);
+					this.graphics.lineTo(100, -_k*100 + _circlePosLocal.y + _k*_circlePosLocal.x);
 				}
 			}
 			
 			_stickSprite.rotation = _angle;
 			
-//			_stickPosGlobal = this.localToGlobal(_stickSprite.localToGlobal(
-//				new Point(Stick.instance.x, Stick.instance.y)));
-			_stickPosGlobal = UIFactory.getGlobalPos(Stick.instance, 
+			_stickPosGlobal = UIFactory.getGlobalPos(_stickSprite, 
 				new Point(Stick.instance.x, Stick.instance.y));
 		}
 		
@@ -160,8 +146,7 @@ package item
 			{
 				_stickYGlobal = -_k*_stickXGlobal + _stickPosGlobal.y + _k*_stickPosGlobal.x;
 			}
-//			_stickPosLocal = _stickSprite.globalToLocal(this.globalToLocal(new Point(_stickXGlobal, _stickYGlobal)));
-			_stickPosLocal = UIFactory.getLocalPos(Stick.instance, new Point(_stickXGlobal, _stickYGlobal));
+			_stickPosLocal = UIFactory.getLocalPos(_stickSprite, new Point(_stickXGlobal, _stickYGlobal));
 			Stick.instance.x = _stickPosLocal.x;
 			Stick.instance.y = _stickPosLocal.y;
 		}
@@ -171,8 +156,8 @@ package item
 		 **/
 		public function stickOut():void
 		{
-//			Stick.instance.setSpeed(STICK_OUT_SPEED, _k*STICK_OUT_SPEED);
-//			this.isAwake = true;
+			Stick.instance.setSpeed(STICK_OUT_SPEED, _k*STICK_OUT_SPEED);
+			this.isAwake = true;
 		}
 		
 		
