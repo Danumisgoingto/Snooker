@@ -80,8 +80,9 @@ package item
 		  **/
 		 public function crashCheck(aItem:ItemBase):void
 		 {
-			 
-			 
+			 if(aItem is DynamicItemBase)
+			 {
+			 }
 			 
 			 
 		 }

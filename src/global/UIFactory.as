@@ -2,6 +2,8 @@ package global
 {
 	import data.GameCache;
 	
+	import director.Director;
+	
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.geom.Point;
@@ -50,6 +52,62 @@ package global
 			return ball;
 		}
 		
+		/**
+		 *  将坐标转化为舞台的全局坐标
+		 **/
+		public static function getGlobalPos(aitem:GameElement, localPoint:Point):Point
+		{
+			var point:Point = new Point(localPoint.x, localPoint.y);
+//			while(!(aitem is SceneBase)) 
+//			{
+//				point.x += aitem.x;
+//				point.y += aitem.y;
+//				aitem = (aitem.parent as GameElement);
+//			}
+//			
+//			point.x += GameCache.GAME_WIN_X;
+//			point.y += GameCache.GAME_WIN_Y;
+			
+			point = aitem.localToGlobal(point);
+			point = Director.instance.localToGlobal(point);
+			
+			return point;
+		}
+		
+		/**
+		 *  将全局的舞台坐标转化为特定容器内的坐标
+		 **/
+		public static function getLocalPos(aitem:GameElement, globalPoint:Point):Point
+		{
+//			var point:Point = new Point(globalPoint.x - GameCache.GAME_WIN_X, 
+//				globalPoint.y - GameCache.GAME_WIN_Y);
+//			//父容器栈
+//			var parentList:Array = [];
+//			var popItem:GameElement;
+//			
+//			while(!(aitem is SceneBase))
+//			{
+//				//入栈
+//				parentList.push(aitem);
+//				aitem = (aitem.parent as GameElement);
+//			}
+//			
+//			while(parentList.length)
+//			{
+//				//出栈
+//				popItem = (parentList.pop() as GameElement);
+//				point.x -= popItem.x;
+//				point.y -= popItem.y;
+//			}
+			
+			var point:Point = new Point(globalPoint.x, globalPoint.y);
+			
+			point = Director.instance.globalToLocal(point);
+			point = aitem.globalToLocal(point);
+			
+			return point;
+		}
+		
 		
 		/**
 		 *  将颜色转化为ARGB
@@ -71,8 +129,8 @@ package global
 		{
 			return rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | rgb[3];
 		}
-
-
+		
+		
 		/**
 		 *  各种反走样算法，实现的效果都不好啊，而且严重拖低fps
 		 *  尝试失败
@@ -124,53 +182,6 @@ package global
 			}
 			
 			return buff;
-		}
-		
-		
-		/**
-		 *  将坐标转化为舞台的全局坐标
-		 **/
-		public static function getGlobalPos(aitem:GameElement, localPoint:Point):Point
-		{
-			var point:Point = new Point(localPoint.x, localPoint.y);
-			while(!(aitem is SceneBase)) 
-			{
-				point.x += aitem.x;
-				point.y += aitem.y;
-				aitem = (aitem.parent as GameElement);
-			}
-			
-			point.x += GameCache.GAME_WIN_X;
-			point.y += GameCache.GAME_WIN_Y;
-			
-			return point;
-		}
-		
-		/**
-		 *  将全局的舞台坐标转化为特定容器内的坐标
-		 **/
-		public static function getLocalPos(aitem:GameElement, globalPoint:Point):Point
-		{
-			var point:Point = new Point(globalPoint.x - GameCache.GAME_WIN_X, 
-				globalPoint.y - GameCache.GAME_WIN_Y);
-			//父容器栈
-			var parentList:Array = [];
-			
-			while(!(aitem is SceneBase))
-			{
-				//入栈
-				parentList.push(aitem);
-				aitem = (aitem.parent as GameElement);
-			}
-			
-			while(parentList.length)
-			{
-				//出栈
-				point.x -= (parentList.pop() as GameElement).x;
-				point.y -= (parentList.pop() as GameElement).y;
-			}
-			
-			return point;
 		}
 		
 	}

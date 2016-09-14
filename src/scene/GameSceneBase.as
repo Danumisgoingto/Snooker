@@ -49,7 +49,6 @@ package scene
 		 **/
 		private function mouseDownHandler(evt:MouseEvent):void
 		{
-//			_pointMouseDown = new Point(evt.localX, evt.localY);
 			_pointMouseDown = new Point(evt.stageX, evt.stageY);
 			_isMouseDown = true;
 			
@@ -72,13 +71,11 @@ package scene
 			mousePos.text = "(stateX, stageY): " + evt.stageX + ", " + evt.stageY;
 			if(!_isMouseDown)
 			{
-//				MajorRole.instance.adjustAngle(new Point(evt.localX, evt.localY));
 				MajorRole.instance.adjustAngle(new Point(evt.stageX, evt.stageY));
 			}
 			else
 			{
 				ballPos.text = "(DownX, DownY): " + _pointMouseDown.x + ", " + _pointMouseDown.y;
-//				MajorRole.instance.gatherStrength(new Point(evt.localX, evt.localY), _pointMouseDown);
 				MajorRole.instance.gatherStrength(new Point(evt.stageX, evt.stageY), _pointMouseDown);
 			}
 		}

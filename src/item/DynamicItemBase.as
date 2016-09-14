@@ -48,6 +48,16 @@ package item
 			return _isAwake;
 		}
 		
+		/**
+		 *  进行复写
+		 *  碰撞检测
+		 **/
+		override public function crashCheck(aItem:ItemBase):void
+		{
+			super.crashCheck(aItem);
+			
+		}
+		
 		
 		public function move():void
 		{

@@ -72,6 +72,12 @@ package item
 			_stickSprite.addItem(Stick.instance);
 			this.addItem(_stickSprite, 0, 0);
 			
+			_stickSprite.x += (STICK_WIDTH + BALL_WHITE_R);
+			_stickSprite.y += BALL_WHITE_R;
+			
+			Stick.instance.x -= (STICK_WIDTH + BALL_WHITE_R);
+			Stick.instance.y -= BALL_WHITE_R;
+			
 		}
 		
 		/**
@@ -81,15 +87,9 @@ package item
 		{
 			if(!_ballPosRecorded)
 			{
-				_stickSprite.x += (STICK_WIDTH + BALL_WHITE_R);
-				_stickSprite.y += BALL_WHITE_R;
-				
-				Stick.instance.x -= (STICK_WIDTH + BALL_WHITE_R);
-				Stick.instance.y -= BALL_WHITE_R;
-				
 				_circlePosLocal = _ballWhite.getCirclePoint();
-				
 				_circlePosGlobal = UIFactory.getGlobalPos(this, _circlePosLocal);
+				
 				_ballPosRecorded = true;
 			}
 			
@@ -128,8 +128,8 @@ package item
 			
 			_stickSprite.rotation = _angle;
 			
-			_stickPosGlobal = UIFactory.getGlobalPos(_stickSprite, 
-				new Point(Stick.instance.x, Stick.instance.y));
+			_stickPosGlobal = UIFactory.getGlobalPos(Stick.instance, 
+				new Point(0, 0));
 		}
 		
 		/**
@@ -156,7 +156,7 @@ package item
 		 **/
 		public function stickOut():void
 		{
-			Stick.instance.setSpeed(STICK_OUT_SPEED, _k*STICK_OUT_SPEED);
+			Stick.instance.setSpeed(STICK_OUT_SPEED, _stickPosLocal.y / _stickPosLocal.x * STICK_OUT_SPEED);
 			this.isAwake = true;
 		}
 		
