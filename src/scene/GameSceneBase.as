@@ -6,7 +6,10 @@ package scene
 	
 	import global.UIFactory;
 	
+	import item.Ball;
 	import item.DynamicItemBase;
+	import item.Edge;
+	import item.ItemBase;
 	import item.MajorRole;
 
 	public class GameSceneBase extends SceneBase
@@ -18,8 +21,9 @@ package scene
 		
 		
 		//=====调试
-		private var mousePos:TextField;
-		private var ballPos:TextField;
+		private var _mousePos:TextField;
+		private var _ballPos:TextField;
+		private var _kTxt:TextField;
 		
 		public function GameSceneBase(url:String=null, width:int=0, height:int=0)
 		{
@@ -32,12 +36,13 @@ package scene
 		{
 			super.createElement();
 			
-			addItem(MajorRole.instance, 100, 100);
+//			addItem(MajorRole.instance, 100, 100);
 			
-			mousePos = UIFactory.TextFeild("", 0, 100, this, 10);
-			mousePos.width = 200;
-			ballPos = UIFactory.TextFeild("", 0, 180, this, 10);
-			ballPos.width = 200;
+			_mousePos = UIFactory.TextFeild("", 0, 100, this, 10);
+			_mousePos.width = 200;
+			_ballPos = UIFactory.TextFeild("", 0, 180, this, 10);
+			_ballPos.width = 200;
+			_kTxt = UIFactory.TextFeild("", 0, 200, this, 10);
 			
 			canvas.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 			canvas.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
@@ -49,7 +54,7 @@ package scene
 		 **/
 		private function mouseDownHandler(evt:MouseEvent):void
 		{
-			_pointMouseDown = new Point(evt.stageX, evt.stageY);
+			_pointMouseDown = new Point(evt.localX, evt.localY);
 			_isMouseDown = true;
 			
 		}
@@ -60,7 +65,7 @@ package scene
 		private function mouseUpHandler(evt:MouseEvent):void
 		{
 			_isMouseDown = false;
-			MajorRole.instance.stickOut();
+			MajorRole.instance.stickOut(new Point(evt.localX, evt.localY));
 		}
 		
 		/**
@@ -68,29 +73,44 @@ package scene
 		 **/
 		private function mouseMoveHandler(evt:MouseEvent):void
 		{
-			mousePos.text = "(stateX, stageY): " + evt.stageX + ", " + evt.stageY;
+			_mousePos.text = "(localX, localY): " + evt.localX + ", " + evt.localY;
+			_kTxt.text = "_k: " + MajorRole.instance.k;
+			
 			if(!_isMouseDown)
 			{
-				MajorRole.instance.adjustAngle(new Point(evt.stageX, evt.stageY));
+				MajorRole.instance.adjustAngle(new Point(evt.localX, evt.localY));
 			}
 			else
 			{
-				ballPos.text = "(DownX, DownY): " + _pointMouseDown.x + ", " + _pointMouseDown.y;
-				MajorRole.instance.gatherStrength(new Point(evt.stageX, evt.stageY), _pointMouseDown);
+				_ballPos.text = "(DownX, DownY): " + _pointMouseDown.x + ", " + _pointMouseDown.y;
+				MajorRole.instance.gatherStrength(new Point(evt.localX, evt.localY), _pointMouseDown);
 			}
 		}
 		
 		override protected function repaint():void
 		{
-			
 			for(var i:uint = 0; i < this.numChildren; i++ )
 			{	
-				if(this.getChildAt(i) is DynamicItemBase
-					&& (this.getChildAt(i) as DynamicItemBase).isAwake)
+				if(this.getChildAt(i) is ItemBase)
 				{
-					(this.getChildAt(i) as DynamicItemBase).move();
+					if(this.getChildAt(i) is Edge)
+					{
+						for(var j:uint = i+1; j< this.numChildren; j++)
+						{
+							if(this.getChildAt(j) is Ball)
+							{
+								(this.getChildAt(i) as Edge).crashCheck(this.getChildAt(j) as Ball);
+							}
+						}
+					}
+					
+					
+					if(this.getChildAt(i) is DynamicItemBase
+						&& (this.getChildAt(i) as DynamicItemBase).isAwake)
+					{
+						(this.getChildAt(i) as DynamicItemBase).move();
+					}
 				}
-				
 			}
 		}
 		

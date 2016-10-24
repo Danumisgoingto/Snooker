@@ -1,32 +1,29 @@
 package scene
 {
-	import director.Director;
-	
-	import flash.display.Scene;
-	import flash.display.Sprite;
 	import flash.events.MouseEvent;
-	import flash.geom.Matrix;
 	import flash.text.TextField;
 	
-	import global.ImagesConst;
-	import global.PoolManager;
 	import global.UIFactory;
 	
 	import item.Ball;
-	import item.DynamicItemBase;
-	import item.Iitem;
-	import item.MajorRole;
-	import item.Stick;
-	
-	import org.osmf.elements.BeaconElement;
+	import item.Edge;
 
 	public class Table extends GameSceneBase
 	{
-		//常量
+		//======静态变量
 		private static var _instance:Table;
 		
-		//
-		private var backText:TextField;
+		//======调试
+		private var _backText:TextField;
+		
+		//======显示对象
+		private var _edgeLeft:Edge;
+		private var _edgeTop:Edge;
+		private var _edgeRight:Edge;
+		private var _edgeBottom:Edge;
+		
+		private var _b:Ball;
+		private var _c:Ball;
 		
 		public function Table()
 		{
@@ -49,17 +46,31 @@ package scene
 		override protected function createElement():void
 		{
 			super.createElement();
-			backText = UIFactory.TextFeild("", 0, 140, this, 10);
-			backText.width = 200;
-//			var b:Ball = UIFactory.createBall("", this, 20, 20);
-//			b.isAwake = true;
-//			b.setSpeed(1400, 0);
+			
+			_backText = UIFactory.TextFeild("", 0, 140, this, 10);
+			_backText.width = 200;
+			
+			_edgeLeft = new Edge("", 10, 505-20);
+			this.addItem(_edgeLeft, 0, 10);
+			_edgeTop = new Edge("", 800, 10);
+			this.addItem(_edgeTop, 0, 0);
+			_edgeRight = new Edge("", 10, 505-20);
+			this.addItem(_edgeRight, 790, 10);
+			_edgeBottom = new Edge("", 800, 10);
+			this.addItem(_edgeBottom, 0, 495);
+			
+//			_c = UIFactory.createBall("", this, 340, 400);
+			
+			_b = UIFactory.createBall("", this, 200, 200);
+			_b.setSpeed(120, "-1");
+			
+			
 		}
 		
 		override protected function repaint():void
 		{
 			super.repaint();
-			backText.text = "(mouseX, mouseY): " + mouseX + ", " + mouseY;
+			_backText.text = "(mouseX, mouseY): " + mouseX + ", " + mouseY;
 		}
 		
 	}

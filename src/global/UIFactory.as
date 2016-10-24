@@ -54,6 +54,7 @@ package global
 		
 		/**
 		 *  将坐标转化为舞台的全局坐标
+		 *  localPoint是在aitem这个容器中的坐标
 		 **/
 		public static function getGlobalPos(aitem:GameElement, localPoint:Point):Point
 		{
@@ -69,7 +70,7 @@ package global
 //			point.y += GameCache.GAME_WIN_Y;
 			
 			point = aitem.localToGlobal(point);
-			point = Director.instance.localToGlobal(point);
+//			point = Director.instance.localToGlobal(point);
 			
 			return point;
 		}
@@ -102,7 +103,7 @@ package global
 			
 			var point:Point = new Point(globalPoint.x, globalPoint.y);
 			
-			point = Director.instance.globalToLocal(point);
+//			point = Director.instance.globalToLocal(point);
 			point = aitem.globalToLocal(point);
 			
 			return point;

@@ -5,6 +5,9 @@ package item
 	
 	import flash.geom.Point;
 	
+	import global.GameElement;
+	import global.UIFactory;
+	
 	public class DynamicItemBase extends ItemBase
 	{
 		protected var _speed:Speed;
@@ -13,6 +16,12 @@ package item
 		protected var _isHasFriction:Boolean;
 		//是否唤醒，唤醒才参与更新
 		private var _isAwake:Boolean;
+		
+		private var _positionGlobal:Point;
+		private var _positionLocal:Point;
+		
+		//碰撞检测点，点越多，碰撞检测越精确
+		protected var _crashPointList:Array;
 		
 		public function DynamicItemBase(url:String = null, width:int = 0, height:int = 0)
 		{
@@ -27,10 +36,23 @@ package item
 			_isHasFriction = true;
 		}
 		
-		public function setSpeed(xSpeed:int, ySpeed:int):void
+		public function setSpeed(speed:int, k:String, multi:int = 1):void
 		{
-			_speed.xSpeed = xSpeed;
-			_speed.ySpeed = ySpeed;
+			if(k)
+			{
+				_speed.xSpeed = speed;
+				k = "" + (multi*Number(k));
+				_speed.ySpeed = Number(k)*speed;
+			}
+			else
+			{
+				_speed.xSpeed = 0;
+				_speed.ySpeed = speed;
+			}
+			if(speed)
+			{
+				this.isAwake = true;
+			}
 		}
 		
 		public function get speed():Speed
@@ -49,6 +71,20 @@ package item
 		}
 		
 		/**
+		 *  提供复写
+		 *  设置检测点
+		 **/
+		protected function setCrashPoint():void
+		{
+			_crashPointList = [];
+		}
+		
+		public function get crashPointList():Array
+		{
+			return _crashPointList;
+		}
+		
+		/**
 		 *  进行复写
 		 *  碰撞检测
 		 **/
@@ -56,6 +92,20 @@ package item
 		{
 			super.crashCheck(aItem);
 			
+			if(isCrash)
+			{
+				if(kTemp2)
+				{
+					this.setSpeed(-itemSpeed, "" + 1/kTemp2, -1);
+				}
+				else
+				{
+					this.setSpeed(-itemSpeed, null);
+				}
+				isCrash = false;
+				kTemp2 = 0;
+				itemSpeed = 0;
+			}
 		}
 		
 		
@@ -64,10 +114,10 @@ package item
 			
 			if(_isHasFriction)
 			{
-				_speed.xSpeed = _speed.xSpeed - GameCache.FRICTION < 0 ?
-					0 : _speed.xSpeed - GameCache.FRICTION;
-				_speed.ySpeed = _speed.ySpeed - GameCache.FRICTION < 0 ?
-					0 : _speed.ySpeed - GameCache.FRICTION;
+				_speed.xSpeed = Math.abs(_speed.xSpeed) - GameCache.FRICTION < 0 ?
+					0 : (_speed.xSpeed/Math.abs(_speed.xSpeed)) * (Math.abs(_speed.xSpeed) - GameCache.FRICTION);
+				_speed.ySpeed = Math.abs(_speed.ySpeed) - GameCache.FRICTION < 0 ?
+					0 : (_speed.ySpeed/Math.abs(_speed.ySpeed)) * (Math.abs(_speed.ySpeed) - GameCache.FRICTION);
 				
 				if(0 == _speed.xSpeed && 0 == _speed.ySpeed)
 				{
@@ -79,8 +129,16 @@ package item
 			if(GameCache.fps)
 			{
 				/*这里完成不受fps影响的速率*/
-				this.x = x + _speed.xSpeed/GameCache.fps;
-				this.y = y + _speed.ySpeed/GameCache.fps;
+				_positionGlobal = UIFactory.getGlobalPos(this, GameCache.ORIGIN_POINT);
+				_positionGlobal.x += _speed.xSpeed/GameCache.fps;
+				_positionGlobal.y += _speed.ySpeed/GameCache.fps;
+				_positionLocal = UIFactory.getLocalPos((this.parent as GameElement), _positionGlobal);
+				this.x = _positionLocal.x;
+				this.y = _positionLocal.y;
+//				this.x = x + _speed.xSpeed/GameCache.fps;
+//				this.y = y + _speed.ySpeed/GameCache.fps;
+				
+				setCrashPoint();
 			}
 			
 		}

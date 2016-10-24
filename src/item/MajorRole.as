@@ -34,7 +34,7 @@ package item
 		
 		private var _angle:Number;
 		//斜率
-		private var _k:Number;
+		private var _k:String;
 		//球的位置是否已经记录
 		private var _ballPosRecorded:Boolean;
 		
@@ -109,27 +109,28 @@ package item
 					_angle = 90;
 					this.graphics.lineTo(_circlePosLocal.x, _circlePosLocal.y + 50);
 				}
+				_k = null;
 			}
 			else
 			{
 				if(point.x < _circlePosGlobal.x)
 				{
-					_k = (point.y - _circlePosGlobal.y) / (point.x - _circlePosGlobal.x);
-					_angle = Math.atan(_k) / Math.PI * 180;
-					this.graphics.lineTo(450, _k*450 + _circlePosLocal.y - _k*_circlePosLocal.x);
+					_k = "" + (point.y - _circlePosGlobal.y) / (point.x - _circlePosGlobal.x);
+					_angle = Math.atan(Number(_k)) / Math.PI * 180;
+					this.graphics.lineTo(450, Number(_k)*450 + _circlePosLocal.y - Number(_k)*_circlePosLocal.x);
 				}
 				else
 				{
-					_k = (_circlePosGlobal.y - point.y) / (point.x - _circlePosGlobal.x);
-					_angle = 180 - Math.atan(_k) / Math.PI * 180;
-					this.graphics.lineTo(100, -_k*100 + _circlePosLocal.y + _k*_circlePosLocal.x);
+					_k = "" + (_circlePosGlobal.y - point.y) / (point.x - _circlePosGlobal.x);
+					_angle = 180 - Math.atan(Number(_k)) / Math.PI * 180;
+					this.graphics.lineTo(100, -Number(_k)*100 + _circlePosLocal.y + Number(_k)*_circlePosLocal.x);
 				}
 			}
 			
 			_stickSprite.rotation = _angle;
 			
 			_stickPosGlobal = UIFactory.getGlobalPos(Stick.instance, 
-				new Point(0, 0));
+				GameCache.ORIGIN_POINT);
 		}
 		
 		/**
@@ -137,29 +138,49 @@ package item
 		 **/
 		public function gatherStrength(mousePoint:Point, downPoint:Point):void
 		{
-			_stickXGlobal = _stickPosGlobal.x + mousePoint.x - downPoint.x;
-			if(downPoint.x < _circlePosGlobal.x)
+			//斜率不存在
+			if(null == _k)
 			{
-				_stickYGlobal = _k*_stickXGlobal + _stickPosGlobal.y - _k*_stickPosGlobal.x;
+				throw Error("斜率不存在请处理");
 			}
 			else
 			{
-				_stickYGlobal = -_k*_stickXGlobal + _stickPosGlobal.y + _k*_stickPosGlobal.x;
+				_stickXGlobal = _stickPosGlobal.x + mousePoint.x - downPoint.x;
+				if(downPoint.x < _circlePosGlobal.x)
+				{
+					_stickYGlobal = Number(_k)*_stickXGlobal + _stickPosGlobal.y - Number(_k)*_stickPosGlobal.x;
+				}
+				else
+				{
+					_stickYGlobal = -Number(_k)*_stickXGlobal + _stickPosGlobal.y + Number(_k)*_stickPosGlobal.x;
+				}
+				
+				_stickPosLocal = UIFactory.getLocalPos(_stickSprite, new Point(_stickXGlobal, _stickYGlobal));
+				Stick.instance.x = _stickPosLocal.x;
+				Stick.instance.y = _stickPosLocal.y;
 			}
-			_stickPosLocal = UIFactory.getLocalPos(_stickSprite, new Point(_stickXGlobal, _stickYGlobal));
-			Stick.instance.x = _stickPosLocal.x;
-			Stick.instance.y = _stickPosLocal.y;
 		}
 		
 		/**
 		 *  弹出
 		 **/
-		public function stickOut():void
+		public function stickOut(mousePoint:Point):void
 		{
-			Stick.instance.setSpeed(STICK_OUT_SPEED, _stickPosLocal.y / _stickPosLocal.x * STICK_OUT_SPEED);
+			if(mousePoint.x < _circlePosGlobal.x)
+			{
+				Stick.instance.setSpeed(STICK_OUT_SPEED, _k);//_stickPosLocal.y / _stickPosLocal.x
+			}
+			else
+			{
+				Stick.instance.setSpeed(-STICK_OUT_SPEED, _k, -1);
+			}
 			this.isAwake = true;
 		}
 		
+		public function get k():String
+		{
+			return _k;
+		}
 		
 		
 		/**
@@ -172,6 +193,7 @@ package item
 				Stick.instance.move();
 			}
 		}
+
 
 	}
 }

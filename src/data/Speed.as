@@ -10,6 +10,14 @@ package data
 		{
 			_xSpeed = xSpeed;
 			_ySpeed = ySpeed;
+			if(xSpeed)
+			{
+				_k = "" + ySpeed/xSpeed;
+			}
+			else
+			{
+				_k = null;
+			}
 		}
 
 		public function get k():String
@@ -17,10 +25,10 @@ package data
 			return _k;
 		}
 
-		public function set k(value:String):void
-		{
-			_k = value;
-		}
+//		public function set k(value:String):void
+//		{
+//			_k = value;
+//		}
 
 		public function get ySpeed():int
 		{
@@ -30,6 +38,14 @@ package data
 		public function set ySpeed(value:int):void
 		{
 			_ySpeed = value;
+			if(xSpeed)
+			{
+				_k = "" + ySpeed/xSpeed;
+			}
+			else
+			{
+				_k = null;
+			}
 		}
 
 		public function get xSpeed():int
@@ -40,6 +56,14 @@ package data
 		public function set xSpeed(value:int):void
 		{
 			_xSpeed = value;
+			if(xSpeed)
+			{
+				_k = "" + ySpeed/xSpeed;
+			}
+			else
+			{
+				_k = null;
+			}
 		}
 
 	}
